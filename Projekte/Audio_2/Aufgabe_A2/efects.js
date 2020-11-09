@@ -14,6 +14,7 @@ let playStopButton = document.querySelector("#playStopButton");
 let sliders = document.getElementsByClassName("slider");
 let reverbSelectlist = document.querySelector("reverbSelectList");
 let filterSelectlist = document.querySelector("filterSelectList");
+let reverbOn = true;
 
 sound.loop = true;
 
@@ -27,32 +28,45 @@ delayNode.connect(context.destination);
 
 
 
-// loadImpulseResponse("room");
+loadImpulseResponse("room");
 
 
-// document.querySelector("#reverbSelectList").addEventListener("change", function (e) {
-//     let name = e.target.options[e.target.selectedIndex].value;
-//     loadImpulseResponse(name);
-// });
+document.querySelector("#reverbSelectList").addEventListener("change", function (e) {
+    let name = e.target.options[e.target.selectedIndex].value;
+    loadImpulseResponse(name);
+});
 
 
 
-// function loadImpulseResponse(name) {
-//     fetch("room.wav")                   //Hier nochmal Dateipfad korrigierenn!!!
-//         .then(response => response.arrayBuffer())
-//         .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
-//         .then(audioBuffer => {
-//             if (convoler) {convoler.disconnect();}
+function loadImpulseResponse(name) {
+    fetch("room.wav")                   //Hier nochmal Dateipfad korrigierenn!!!
+        .then(response => response.arrayBuffer())
+        .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
+        .then(audioBuffer => {
+            if (convoler) {convoler.disconnect();}
 
-//             convoler = context.createConvolver();
-//             convoler.buffer = audioBuffer;
-//             convoler.normalize = true;
+            convoler = context.createConvolver();
+            convoler.buffer = audioBuffer;
+            convoler.normalize = true;
 
-//             source.connect(convoler);
-//             convoler.connect(context.destination);
-//         })
-//         .catch(console.error);
-// };
+            compressor.connect(convoler);
+            convoler.connect(context.destination);
+        })
+        .catch(console.error);
+};
+
+document.querySelector("#reverbOnOffButton").addEventListener("click", function(){
+    if(reverbOn){
+        convoler.disconnect();
+        document.querySelector("#reverbOnOffButton").innerHTML = "Turn on"
+    }else{
+        
+        loadImpulseResponse("room");
+        document.querySelector("#reverbOnOffButton").innerHTML = "Turn off"
+    }
+    reverbOn = !reverbOn
+});
+
 
 
 filterSelectList.addEventListener("change", function (e) {
