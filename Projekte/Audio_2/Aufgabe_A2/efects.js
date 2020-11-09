@@ -39,7 +39,7 @@ document.querySelector("#reverbSelectList").addEventListener("change", function 
 
 
 function loadImpulseResponse(name) {
-    fetch("room.wav")                   //Hier nochmal Dateipfad korrigierenn!!!
+    fetch("/impulseResponses/" + name + ".wav")                   //Hier nochmal Dateipfad korrigierenn!!!
         .then(response => response.arrayBuffer())
         .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
         .then(audioBuffer => {
@@ -55,12 +55,11 @@ function loadImpulseResponse(name) {
         .catch(console.error);
 };
 
-document.querySelector("#reverbOnOffButton").addEventListener("click", function(){
+document.querySelector("#reverbOnOffButton").addEventListener("click", function(e){
     if(reverbOn){
         convoler.disconnect();
         document.querySelector("#reverbOnOffButton").innerHTML = "Turn on"
     }else{
-        
         loadImpulseResponse("room");
         document.querySelector("#reverbOnOffButton").innerHTML = "Turn off"
     }
