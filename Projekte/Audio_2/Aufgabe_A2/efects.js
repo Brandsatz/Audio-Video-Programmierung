@@ -39,7 +39,7 @@ document.querySelector("#reverbSelectList").addEventListener("change", function 
 
 
 function loadImpulseResponse(name) {
-    fetch("/impulseResponses/" + name + ".wav")                   //Hier nochmal Dateipfad korrigierenn!!!
+    fetch(name + ".wav")                   //Hier nochmal Dateipfad korrigierenn!!!
         .then(response => response.arrayBuffer())
         .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
         .then(audioBuffer => {
