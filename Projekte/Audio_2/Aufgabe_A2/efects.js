@@ -34,40 +34,57 @@ for (let i = 0; i < sliders.length; i++) {
 function changeParameter() {
     switch (this.id) {
         case "gainSlider":
-            compressor.threshold.value = (this.value - 100);
-            document.querySelector("#thresholdOutput").innerHTML = (this.value - 100) + " dB";
+            gainNode.gain.value = (this.value);
+            document.querySelector("#tgainOutput").innerHTML = (this.value) + " dB";
             break;
         case "panningSlider":
-            compressor.threshold.value = (this.value - 100);
-            document.querySelector("#thresholdOutput").innerHTML = (this.value - 100) + " dB";
+            panNode.pan.value = (this.value);
+            document.querySelector("#panningOutput").innerHTML = (this.value) + " dB";
+            break;
+        case "delaySlider":
+            delayNode.delayTime.value = (this.value);
+            document.querySelector("#delayOutput").innerHTML = (this.value) + " dB";
+            break;
+        case "distortionSlider":
+            distortion.curve = makeDistortionCurve(this.value);
+            document.querySelector("#distortionOutput").innerHTML = (this.value) + " dB";
             break;
         case "thresholdSlider":
-            compressor.threshold.value = (this.value - 100);
-            document.querySelector("#thresholdOutput").innerHTML = (this.value - 100) + " dB";
-            break;
-        case "thresholdSlider":
-            compressor.threshold.value = (this.value - 100);
-            document.querySelector("#thresholdOutput").innerHTML = (this.value - 100) + " dB";
-            break;
-        case "thresholdSlider":
-            compressor.threshold.value = (this.value - 100);
-            document.querySelector("#thresholdOutput").innerHTML = (this.value - 100) + " dB";
+            compressor.threshold.value = (this.value);
+            document.querySelector("#thresholdOutput").innerHTML = (this.value) + " dB";
             break;
         case "ratioSlider":
-            compressor.ratio.value = (this.value / 5);
-            document.querySelector("#ratioOutput").innerHTML = (this.value / 5) + " dB";
+            compressor.ratio.value = (this.value);
+            document.querySelector("#ratioOutput").innerHTML = (this.value) + " dB";
             break;
         case "kneeSlider":
-            compressor.knee.value = (this.value / 2.5);
-            document.querySelector("#kneeOutput").innerHTML = (this.value / 2.5) + " degree";
+            compressor.knee.value = (this.value);
+            document.querySelector("#kneeOutput").innerHTML = (this.value) + " degree";
             break;
         case "attackSlider":
-            compressor.attack.value = (this.value / 1000);
-            document.querySelector("#attackOutput").innerHTML = (this.value / 1000) + " sec";
+            compressor.attack.value = (this.value);
+            document.querySelector("#attackOutput").innerHTML = (this.value) + " sec";
             break;
         case "releaseSlider":
-            compressor.release.value = (this.value / 1000);
-            document.querySelector("#releaseOutput").innerHTML = (this.value - 100) + " sec";
+            compressor.release.value = (this.value);
+            document.querySelector("#releaseOutput").innerHTML = (this.value) + " sec";
             break;
+        case "frequencySlider":
+            filter.frequency.value = (this.value);
+            document.querySelector("#frequencyOutput").innerHTML = (this.value) + " Hz";
+            break;
+        case "detuneSlider":
+            filter.detune.value = (this.value);
+            document.querySelector("#detuneOutput").innerHTML = (this.value) + " cents";
+            break;
+        case "qSlider":
+            filter.Q.value = (this.value);
+            document.querySelector("#qOutput").innerHTML = (this.value) + " ";
+            break;
+        case "filterGainSlider":
+            filter.gain.value = (this.value);
+            document.querySelector("#gainOutput").innerHTML = (this.value) + " dB";
+            break;
+            }
     }
 }

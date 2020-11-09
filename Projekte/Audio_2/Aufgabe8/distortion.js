@@ -3,7 +3,7 @@ let sound = new Audio("guitar.wav");
 let source = context.createMediaElementSource(sound);
 let distortion = context.createWaveShaper();
 let isPlaying = false;
-let playStopButton = document.querySelector("#playStopButton");
+
 
 sound.loop = true;
 
