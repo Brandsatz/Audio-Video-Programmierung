@@ -9,17 +9,17 @@
         <button id="playStopButton">Play</button>
 
         <div id="gainContainer"> Gain
-            <input type="range" min="0" max="100" value="0" class="slider" id="gainContainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="gainSlider">
             <span id="gainContainer">0</span>
         </div>
 
         <div id="panningContainer"> Panning
-            <input type="range" min="0" max="100" value="0" class="slider" id="panningContainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="panningSlider">
             <span id="panningContainer">0</span>
         </div>
 
         <div id="delayContainer"> Delay
-            <input type="range" min="0" max="100" value="0" class="slider" id="delayContainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="delaySlider">
             <span id="delayContainer">0</span>
         </div>
 
@@ -32,7 +32,7 @@
 
 
         <div id="reverbContainer">Reverb
-            <select id="selectList">
+            <select id="reverbSelectList">
                 <option value="room">Room</option>
                 <option value="church">Church</option>
                 <option value="cave">Cave</option>
@@ -96,7 +96,7 @@
         
 
         <div id="typeContainer" class="filter">Type
-            <select id="selectList">
+            <select id="filterSelectList">
                 <option value="lowpass">Lowpass</option>
                 <option value="highpass">Highpass</option>
                 <option value="bandpass">Bandpass</option>
