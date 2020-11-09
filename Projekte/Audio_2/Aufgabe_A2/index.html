@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>AVPRG Aufgabe 8</title>
+    </head>
+    <body>
+        <!-- Dies ist der Code für die Aufgabe-->
+        <button id="playStopButton">Play</button>
+
+        <div id="gainContainer"> Gain
+            <input type="range" min="0" max="100" value="0" class="slider" id="gainContainer">
+            <span id="gainContainer">0</span>
+        </div>
+
+        <div id="panningContainer"> Panning
+            <input type="range" min="0" max="100" value="0" class="slider" id="panningContainer">
+            <span id="panningContainer">0</span>
+        </div>
+
+        <div id="delayContainer"> Delay
+            <input type="range" min="0" max="100" value="0" class="slider" id="delayContainer">
+            <span id="delayContainer">0</span>
+        </div>
+
+        
+
+        <div id="distortionContainer"> Distortion
+            <input type="range" min="0" max="100" value="0" class="slider" id="distortionSlider">
+            <span id="distortionOutput">0</span>
+        </div>
+
+
+        <div id="reverbContainer">Reverb
+            <select id="selectList">
+                <option value="room">Room</option>
+                <option value="church">Church</option>
+                <option value="cave">Cave</option>
+                <option value="garage">Garage</option>
+            </select>
+            <button id="reverbOnOffButton">Turn off</button>
+        </div>
+
+
+
+
+        <div id="compressorHead" class="compressor">Compressor</div>
+
+        <div id="filterHead" class="filter">Filter</div>
+        
+        <div id="thresholdContainer" class="compressor"> Threshold
+            <input type="range" min="0" max="100" value="76" class="slider" id="thresholdSlider">
+            <span id="thresholdOutput">-24 dB</span>
+        </div>
+
+        <div id="frequencyContainer" class="filter"> Frequency
+            <input type="range" min="1000" max="20000" value="1000" class="slider" id="frequencySlider">
+            <span id="frequencyOutput">1000 Hz</span>
+        </div>
+
+        <div id="ratioContainer" class="compressor"> Ratio
+            <input type="range" min="0" max="100" value="60" class="slider" id="ratioSlider">
+            <span id="ratioOutput">12 dB</span>
+        </div>
+
+        <div id="detuneContainer" class="filter"> Detune
+            <input type="range" min="0" max="100" value="0" class="slider" id="detuneSlider">
+            <span id="detuneOutput">0 cents</span>
+        </div>
+
+        <div id="kneeContainer" class="compressor"> Knee
+            <input type="range" min="0" max="100" value="75" class="slider" id="kneeSlider">
+            <span id="kneeOutput">30 degree</span>
+        </div>
+
+        <div id="qContainer" class="filter"> Quality
+            <input type="range" min="0" max="100" value="0" class="slider" id="qSlider">
+            <span id="qOutput">0</span>
+        </div>
+
+        <div id="attackContainer" class="compressor"> Attack
+            <input type="range" min="0" max="1000" value="3" class="slider" id="attackSlider">
+            <span id="attackOutput">0.003 sec</span>
+        </div>
+
+        <div id="gainContainer" class="filter"> Gain
+            <input type="range" min="-40" max="40" value="0" class="slider" id="gainSlider">
+            <span id="gainOutput">0 dB</span>
+        </div>
+
+        <div id="releaseContainer" class="compressor"> Release
+            <input type="range" min="0" max="1000" value="10" class="slider" id="releaseSlider">
+            <span id="releaseOutput">0.25 sec</span>
+        </div>  
+
+        
+
+        <div id="typeContainer" class="filter">Type
+            <select id="selectList">
+                <option value="lowpass">Lowpass</option>
+                <option value="highpass">Highpass</option>
+                <option value="bandpass">Bandpass</option>
+                <option value="allpass">Allpass</option>
+                <option value="lowshelf">lowshelf</option>
+                <option value="highshelf">highshelf</option>
+                <option value="peaking">Peaking</option>
+                <option value="notch">Notch</option>
+            </select>
+        </div>
+
+
+        <script src="efects.js"></script>
+        <!-------------------------------------->
+    </body>
+</html>
