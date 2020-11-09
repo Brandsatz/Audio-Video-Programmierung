@@ -20,6 +20,21 @@ html, body {
 #playStopButton:active {
    background: #ffffff;
 }
+#gainContainer {
+    background: #cf0a0ae0;
+}
+#panningContainer {
+    background: #c57206;
+}
+#delayContainer {
+    background: #e7c609;
+}
+#distortionContainer {
+    background: #6bb11c;
+}
+#reverbContainer {
+    background: #088546;
+}
 
 div {
     font-size: 1.5em;
@@ -28,12 +43,45 @@ div {
 .compressor{
     width: 50%;
     float: left;
+    background: #0bd8f3;
+}
+#thresholdContainer {
+    background: #08a5e4;
+}
+#ratioContainer {
+    background: #0850ec;
+}
+#kneeContainer {
+    background: #083be4;
+}
+#attackContainer {
+    background: #28048b;
+}
+#releaseContainer {
+    background: #1f095a;
 }
 
 .filter{
     width: 50%;
     float: left;
+    background: #dda2dd;
 }
+#frequencyContainer {
+    background: #f559e8;
+}
+#detuneContainer {
+    background: #e027e0;
+}
+#qContainer {
+    background: #ac19b9;
+}
+#filterGainContainer {
+    background: #7c067c;
+}
+#typeContainer {
+    background: #5c045f;
+}
+
 
 .slider {
     margin: 0;
