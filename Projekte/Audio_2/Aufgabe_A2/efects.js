@@ -21,39 +21,38 @@ source.connect(gainNode);
 gainNode.connect(panNode);
 panNode.connect(filter);
 filter.connect(distortion);
-distortion.connect(convoler);
-convoler.connect(compressor);
+distortion.connect(compressor);
 compressor.connect(delayNode);
 delayNode.connect(context.destination);
 
 
 
-loadImpulseResponse("room");
+// loadImpulseResponse("room");
 
 
-document.querySelector("#reverbSelectList").addEventListener("change", function (e) {
-    let name = e.target.options[e.target.selectedIndex].value;
-    loadImpulseResponse(name);
-});
+// document.querySelector("#reverbSelectList").addEventListener("change", function (e) {
+//     let name = e.target.options[e.target.selectedIndex].value;
+//     loadImpulseResponse(name);
+// });
 
 
 
-function loadImpulseResponse(name) {
-    fetch("room.wav")                   //Hier nochmal Dateipfad korrigierenn!!!
-        .then(response => response.arrayBuffer())
-        .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
-        .then(audioBuffer => {
-            if (convoler) {convoler.disconnect();}
+// function loadImpulseResponse(name) {
+//     fetch("room.wav")                   //Hier nochmal Dateipfad korrigierenn!!!
+//         .then(response => response.arrayBuffer())
+//         .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
+//         .then(audioBuffer => {
+//             if (convoler) {convoler.disconnect();}
 
-            convoler = context.createConvolver();
-            convoler.buffer = audioBuffer;
-            convoler.normalize = true;
+//             convoler = context.createConvolver();
+//             convoler.buffer = audioBuffer;
+//             convoler.normalize = true;
 
-            source.connect(convoler);
-            convoler.connect(context.destination);
-        })
-        .catch(console.error);
-};
+//             source.connect(convoler);
+//             convoler.connect(context.destination);
+//         })
+//         .catch(console.error);
+// };
 
 
 filterSelectList.addEventListener("change", function (e) {
@@ -62,7 +61,7 @@ filterSelectList.addEventListener("change", function (e) {
 
 
 for (let i = 0; i < sliders.length; i++) {
-    sliders[i].addEventListener("input", changeParameter)
+    sliders[i].addEventListener("mousemove", changeParameter)
 }
 
 function changeParameter() {
