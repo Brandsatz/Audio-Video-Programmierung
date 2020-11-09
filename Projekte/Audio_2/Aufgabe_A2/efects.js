@@ -37,7 +37,7 @@ function changeParameter() {
             compressor.threshold.value = (this.value - 100);
             document.querySelector("#thresholdOutput").innerHTML = (this.value - 100) + " dB";
             break;
-        case "thresholdSlider":
+        case "panningSlider":
             compressor.threshold.value = (this.value - 100);
             document.querySelector("#thresholdOutput").innerHTML = (this.value - 100) + " dB";
             break;
