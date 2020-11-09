@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>AVPRG Aufgabe 4</title>
+    </head>
+    <body>
+        <!-- Dies ist der Code für die Aufgabe -->
+        <button type="button" id="startStopButton">Play</button>
+
+        <div id="gain" class="box">
+            <h3>Gain</h3>
+            <input type="range" class="slider" id="gainSlider" name="gainSlider" min="0" max="10" step="0.1" value="1">
+            <div id="gainAnzeige" class="anzeige"></div>
+        </div>
+
+        <div id="pan" class="box">
+            <h3>Panning</h3>
+            <input type="range" class="slider" id="panSlider" name="panSlider" min="-1" max="1" step="0.01" value="0">
+            <div id="panAnzeige" class="anzeige"></div>
+        </div>
+
+        <div id="delay" class="box">
+            <h3>Delay</h3>
+            <input type="range" class="slider" id="delaySlider" name="delaySlider" min="0" max="4" step="0.01" value="0">
+            <div id="delayAnzeige" class="anzeige"></div>
+        </div>
+        
+
+        <script src="effects.js"></script>
+        <!--------------------------------------->
+    </body>
+</html>
