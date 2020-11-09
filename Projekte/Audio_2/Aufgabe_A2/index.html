@@ -9,24 +9,24 @@
         <button id="playStopButton">Play</button>
 
         <div id="gainContainer"> Gain
-            <input type="range" min="0" max="40" value="0" class="slider" id="gainSlider">
-            <span id="gainOutput">0</span>
+            <input type="range" min="0" max="20" value="1" step="0.1" class="slider" id="gainSlider">
+            <span id="gainOutput">0 db</span>
         </div>
 
         <div id="panningContainer"> Panning
             <input type="range" min="-1" max="1" value="0" step ="0.05" class="slider" id="panningSlider">
-            <span id="panningOutput">0</span>
+            <span id="panningOutput">0 LR</span>
         </div>
 
         <div id="delayContainer"> Delay
-            <input type="range" min="0" max="4" value="0" steps="0.05" class="slider" id="delaySlider">
-            <span id="delayOutput">0</span>
+            <input type="range" min="0" max="4" value="0" step="0.05" class="slider" id="delaySlider">
+            <span id="delayOutput">0 s</span>
         </div>
 
         
 
         <div id="distortionContainer"> Distortion
-            <input type="range" min="0" max="100" value="0" class="slider" id="distortionSlider">
+            <input type="range" min="0" max="400" value="0" class="slider" id="distortionSlider">
             <span id="distortionOutput">0</span>
         </div>
 
@@ -49,18 +49,18 @@
         <div id="filterHead" class="filter">Filter</div>
         
         <div id="thresholdContainer" class="compressor"> Threshold
-            <input type="range" min="0" max="100" value="76" class="slider" id="thresholdSlider">
+            <input type="range" min="-100" max="0" value="-24" class="slider" id="thresholdSlider">
             <span id="thresholdOutput">-24 dB</span>
         </div>
 
         <div id="frequencyContainer" class="filter"> Frequency
-            <input type="range" min="1000" max="20000" value="1000" class="slider" id="frequencySlider">
+            <input type="range" min="1000" max="20000" value="20000" class="slider" id="frequencySlider">
             <span id="frequencyOutput">1000 Hz</span>
         </div>
 
         <div id="ratioContainer" class="compressor"> Ratio
-            <input type="range" min="0" max="100" value="60" class="slider" id="ratioSlider">
-            <span id="ratioOutput">12 dB</span>
+            <input type="range" min="0" max="20" value="1" class="slider" id="ratioSlider">
+            <span id="ratioOutput">1 dB</span>
         </div>
 
         <div id="detuneContainer" class="filter"> Detune
@@ -69,17 +69,17 @@
         </div>
 
         <div id="kneeContainer" class="compressor"> Knee
-            <input type="range" min="0" max="100" value="75" class="slider" id="kneeSlider">
+            <input type="range" min="0" max="40" value="30" class="slider" id="kneeSlider">
             <span id="kneeOutput">30 degree</span>
         </div>
 
         <div id="qContainer" class="filter"> Quality
-            <input type="range" min="0" max="100" value="0" class="slider" id="qSlider">
+            <input type="range" min="0" max="100" value="1" class="slider" id="qSlider">
             <span id="qOutput">0</span>
         </div>
 
         <div id="attackContainer" class="compressor"> Attack
-            <input type="range" min="0" max="1000" value="3" class="slider" id="attackSlider">
+            <input type="range" min="0" max="1" value="0.003" step="0.001" class="slider" id="attackSlider">
             <span id="attackOutput">0.003 sec</span>
         </div>
 
@@ -89,7 +89,7 @@
         </div>
 
         <div id="releaseContainer" class="compressor"> Release
-            <input type="range" min="0" max="1000" value="10" class="slider" id="releaseSlider">
+            <input type="range" min="0" max="1" value="0.25" step="0.001" class="slider" id="releaseSlider">
             <span id="releaseOutput">0.25 sec</span>
         </div>  
 
