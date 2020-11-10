@@ -66,7 +66,8 @@ document.querySelector("#reverbOnOffButton").addEventListener("click", function(
         document.querySelector("#reverbOnOffButton").innerHTML = "Turn on"
     }else{
         reverbOn = true;
-        loadImpulseResponse("room");
+        let name = document.querySelector("#reverbSelectList").value;
+        loadImpulseResponse(name);
         document.querySelector("#reverbOnOffButton").innerHTML = "Turn off"
     }
 });
