@@ -14,7 +14,7 @@ def mouseCallback(event, x, y, flags, param):
     cv2.imshow("Lupe", output)
 
 
-img = cv2.imread("Video_1\Aufgabe_1\Lighthouse.jpg")
+img = cv2.imread("Lighthouse.jpg")
 
 cv2.namedWindow("Lupe")
 cv2.setMouseCallback("Lupe", mouseCallback)
