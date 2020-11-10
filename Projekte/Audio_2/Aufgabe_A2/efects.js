@@ -26,6 +26,8 @@ distortion.connect(compressor);
 compressor.connect(delayNode);
 delayNode.connect(context.destination);
 
+filter.frequency.value = sliders["frequencySlider"].value;
+
 
 
 loadImpulseResponse("room");
@@ -39,31 +41,34 @@ document.querySelector("#reverbSelectList").addEventListener("change", function 
 
 
 function loadImpulseResponse(name) {
-    fetch(name + ".wav")                   //Hier nochmal Dateipfad korrigierenn!!!
-        .then(response => response.arrayBuffer())
-        .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
-        .then(audioBuffer => {
-            if (convoler) {convoler.disconnect();}
+    if(reverbOn){
+        fetch('impulseResponses/' + name + '.wav')                   //Hier nochmal Dateipfad korrigierenn!!!
+            .then(response => response.arrayBuffer())
+            .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
+            .then(audioBuffer => {
+                if (convoler) {convoler.disconnect();}
 
-            convoler = context.createConvolver();
-            convoler.buffer = audioBuffer;
-            convoler.normalize = true;
+                convoler = context.createConvolver();
+                convoler.buffer = audioBuffer;
+                convoler.normalize = true;
 
-            compressor.connect(convoler);
-            convoler.connect(context.destination);
-        })
-        .catch(console.error);
+                compressor.connect(convoler);
+                convoler.connect(context.destination);
+            })
+            .catch(console.error);
+    }
 };
 
 document.querySelector("#reverbOnOffButton").addEventListener("click", function(e){
     if(reverbOn){
+        reverbOn = false;
         convoler.disconnect();
         document.querySelector("#reverbOnOffButton").innerHTML = "Turn on"
     }else{
+        reverbOn = true;
         loadImpulseResponse("room");
         document.querySelector("#reverbOnOffButton").innerHTML = "Turn off"
     }
-    reverbOn = !reverbOn
 });
 
 
