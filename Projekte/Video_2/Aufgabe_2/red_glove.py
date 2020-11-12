@@ -4,6 +4,11 @@ import cv2
 # Video aus Datei öffnen
 cap = cv2.VideoCapture('Micro-dance_2_.avi')
 
+# Rot, Grün und Blau Festwerte
+
+r = 82
+g = 34
+b = 7
 
 while cap.isOpened():
     ret, frame = cap.read()
