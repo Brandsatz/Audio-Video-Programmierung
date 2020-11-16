@@ -10,13 +10,13 @@ cap = cv2.VideoCapture(0)
 
 # zwei Slider für Threshold 
 cv2.namedWindow("Video")
-cv2.createTrackbar("Hue", "Video", 9, 40, do_nothing)
-cv2.createTrackbar("Saturation", "Video", 80, 80, do_nothing)
+cv2.createTrackbar("Hue", "Video", 20, 40, do_nothing)
+cv2.createTrackbar("Saturation", "Video", 70, 80, do_nothing)
 
 
 #Hue und Saturation des Handschuhs
-hue = 180
-satu = 176
+hue = 113
+satu = 199
 
 
 
@@ -46,8 +46,11 @@ while cap.isOpened():
 
     # Maske filtern
 
-    # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))
-    # opening = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+    # kernele = np.ones((3,3),np.uint8)
+    # erosion = cv2.erode(mask, kernele, iterations=1)
+
+    # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
+    # opening = cv2.morphologyEx(erosion, cv2.MORPH_OPEN, kernel)
 
     # kernel2 = kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (8,8))
     # closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel2)
@@ -62,6 +65,11 @@ while cap.isOpened():
     for index in range(len(contours)):
         area = cv2.contourArea(contours[index])
 
+        if area <= 1000 :
+            cv2.drawContours(mask, contours, index, (0,0,0), cv2.FILLED)
+        else:
+            
+
 
 
     
@@ -69,7 +77,7 @@ while cap.isOpened():
 
     # Maske darstellen
     cv2.imshow("Video", mask)
-    #cv2.imshow("Filter", dilation)
+    #cv2.imshow("Filter", opening)
     #cv2.imshow("Filter2", closing)
     cv2.imshow("Origi", frame)
 
