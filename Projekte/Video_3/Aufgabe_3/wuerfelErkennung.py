@@ -65,10 +65,17 @@ while cap.isOpened():
     for index in range(len(contours)):
         area = cv2.contourArea(contours[index])
 
-        if area <= 1000 :
+        if area <= 1100 :
             cv2.drawContours(mask, contours, index, (0,0,0), cv2.FILLED)
         else:
-            
+            M = cv2.moments(contours[index])
+            cx = int(M['m10']/M['m00'])
+            cy = int(M['m01']/M['m00'])
+
+
+            x,y,w,h = cv2.boundingRect(contours[index])
+            cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+            cv2.putText(frame, "X: {0} Y: {1} ".format(cx,cy), (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 200, 0), 1)
 
 
 
