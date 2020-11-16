@@ -16,7 +16,7 @@ cv2.createTrackbar("Saturation", "Video", 80, 80, do_nothing)
 
 #Hue und Saturation des Handschuhs
 hue = 180
-satu = 178
+satu = 176
 
 
 
@@ -46,18 +46,31 @@ while cap.isOpened():
 
     # Maske filtern
 
-    #kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
-    #opening = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+    # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))
+    # opening = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
 
-    kernel = np.ones((3,3),np.uint8)
-    dilation = cv2.dilate(mask, kernel, iterations=1)
+    # kernel2 = kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (8,8))
+    # closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel2)
+
+    # kernel2 = np.ones((3,3),np.uint8)
+    # dilation = cv2.dilate(opening, kernel2, iterations=1)
 
     #output = cv2.multiply(mask, frame)
+
+    contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    for index in range(len(contours)):
+        area = cv2.contourArea(contours[index])
+
+
+
+    
 
 
     # Maske darstellen
     cv2.imshow("Video", mask)
-    cv2.imshow("Filter", dilation)
+    #cv2.imshow("Filter", dilation)
+    #cv2.imshow("Filter2", closing)
     cv2.imshow("Origi", frame)
 
     if cv2.waitKey(25) != -1:
