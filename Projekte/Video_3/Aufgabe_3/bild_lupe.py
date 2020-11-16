@@ -16,7 +16,7 @@ def mouseCallback(event,x,y,flags,param):
 
 
 
-img = cv2.imread("Beispielbild_Rot.jpg",cv2.IMREAD_COLOR)
+img = cv2.imread("WIN_20201116_17_15_30_Pro.jpg",cv2.IMREAD_COLOR)
 height, width = img.shape[:2]
 
 cv2.namedWindow('Lupe')
