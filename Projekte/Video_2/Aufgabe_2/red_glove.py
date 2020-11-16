@@ -15,8 +15,8 @@ cv2.createTrackbar("Gruen", "Video", 10, 40, do_nothing)
 cv2.createTrackbar("Rot", "Video", 10, 40, do_nothing)
 
 # Rot, Grün und Blau Festwerte
-blauWert = 18
-gruenWert = 34
+blauWert = 56
+gruenWert = 54
 rotWert = 82
 
 

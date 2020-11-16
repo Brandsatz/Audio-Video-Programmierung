@@ -11,12 +11,18 @@ def mouseCallback(event, x, y, flags, param):
     r = int(pixel[2])
 
     cv2.rectangle(output, (0,0), (10,10), (b, g, r), cv2.FILLED)
-    cv2.putText(output, "R: {0} G: {1} B: {2}".format(r, g, b), (2, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+    cv2.putText(output, "R: {0} G: {1} B: {2}".format(r, g, b), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+    print("R")
+    print(r)
+    print("G")
+    print(g)
+    print("B")
+    print(b)
     cv2.imshow("Lupe", output)
 
 
 
-img = cv2.imread("roterHandschuh_Screenshot.png")
+img = cv2.imread("Rot Pixel.png", cv2.IMREAD_COLOR)
 height, width = img.shape[:2]
 
 cv2.namedWindow("Lupe")
