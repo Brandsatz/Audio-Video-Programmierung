@@ -4,7 +4,7 @@ import cv2
 
 def mouseCallback(event, x, y, flags, param):
     output = img.copy()
-    pixel = img[x,y]
+    pixel = img[y,x]
 
     blau = int(pixel[0])
     gruen = int(pixel[1])

@@ -84,8 +84,6 @@ while cap.isOpened():
 
     # Maske darstellen
     cv2.imshow("Video", mask)
-    #cv2.imshow("Filter", opening)
-    #cv2.imshow("Filter2", closing)
     cv2.imshow("Origi", frame)
 
     if cv2.waitKey(25) != -1:

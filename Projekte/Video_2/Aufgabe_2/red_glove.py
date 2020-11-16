@@ -10,14 +10,14 @@ cap = cv2.VideoCapture('Micro-dance_2_.avi')
 
 # drei Slider für Threshold 
 cv2.namedWindow("Video")
-cv2.createTrackbar("Blau", "Video", 5, 40, do_nothing)
-cv2.createTrackbar("Gruen", "Video", 10, 40, do_nothing)
-cv2.createTrackbar("Rot", "Video", 10, 40, do_nothing)
+cv2.createTrackbar("Blau", "Video", 10, 40, do_nothing)
+cv2.createTrackbar("Gruen", "Video", 15, 40, do_nothing)
+cv2.createTrackbar("Rot", "Video", 20, 40, do_nothing)
 
 # Rot, Grün und Blau Festwerte
-blauWert = 56
-gruenWert = 54
-rotWert = 82
+blauWert = 40#56
+gruenWert = 35#54
+rotWert = 105#82
 
 
 while cap.isOpened():
