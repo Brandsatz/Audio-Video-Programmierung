@@ -16,7 +16,7 @@ for (let i = 0; i < drumpads.length; i++) {
 }
 
 function getData(i) {
-    fetch("/drumsounds/sound" + (i + 1) + ".wav")
+    fetch((i + 1) + ".wav")
         .then(response => response.arrayBuffer())
         .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
         .then(audioBuffer => {
