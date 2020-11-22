@@ -1,0 +1,13 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    background: #1d72ba;
+    color: #e0d336;
+    font-family: monospace;
+    text-align: center;
+}
+
+div {
+    font-size: 3em;
+}
+
