@@ -49,7 +49,7 @@ let velocityVolumes = [];
 let distortion = context.createWaveShaper();
 let filter = context.createBiquadFilter();
 let octaveShifter = 60;
-
+let convolver = context.createConvolver();
 let lfo = context.createOscillator();
 let lfoGain = context.createGain();
 
@@ -62,8 +62,6 @@ let reverbOn = true;
 
 let attackValue = 0.1;
 let releaseValue = document.querySelector("#releaseSlider").value;
-
-let convoler = context.createConvolver();
 
 loadImpulseResponse("room");
 
@@ -102,14 +100,14 @@ function loadImpulseResponse(name) {
             .then(response => response.arrayBuffer())
             .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
             .then(audioBuffer => {
-                if (convoler) {convoler.disconnect();}
+                if (convolver) {convolver.disconnect();}
 
-                convoler = context.createConvolver();
-                convoler.buffer = audioBuffer;
-                convoler.normalize = true;
+                convolver = context.createConvolver();
+                convolver.buffer = audioBuffer;
+                convolver.normalize = true;
 
-                // distortion.connect(convolver)
-                convoler.connect(context.destination);
+                distortion.connect(convolver)
+                convolver.connect(context.destination);
             })
             .catch(console.error);
     }
@@ -118,7 +116,7 @@ function loadImpulseResponse(name) {
 document.querySelector("#reverbOnOffButton").addEventListener("click", function(e){
     if(reverbOn){
         reverbOn = false;
-        convoler.disconnect();
+        convolver.disconnect();
         document.querySelector("#reverbOnOffButton").innerHTML = "Turn on"
     }else{
         reverbOn = true;
@@ -192,8 +190,9 @@ function startNote(note, velocity) {
     velocityVolumes[note].gain.cancelScheduledValues(0);
     velocityVolumes[note].gain.linearRampToValueAtTime(velocity / 127, context.currentTime + attackValue);
     oscillators[note] = context.createOscillator();
+    oscillators[note].type = 'sine';
     oscillatorsSeage[note] = context.createOscillator();
-    oscillatorsSeage[note].type = 'sawtooth';
+    oscillatorsSeage[note].type = 'square';
     oscillators[note].frequency.value = allFrequencies[note];
     oscillatorsSeage[note].frequency.value = allFrequencies[note];
     oscillators[note].connect(velocityVolumes[note]);
