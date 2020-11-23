@@ -50,7 +50,7 @@ let buttons = document.getElementsByClassName("button");
 
 let sliders = document.getElementsByClassName("slider");
 
-let attackValue = document.querySelector("#attackSlider").value;
+let attackValue = 0.1;
 let releaseValue = document.querySelector("#releaseSlider").value;
 let lfoValue = document.querySelector("#lfoSlider").value;
 
@@ -82,7 +82,7 @@ function changeParameter() {
             document.querySelector("#releaseOutput").innerHTML = (this.value) + " sec";
             break;
         case "lfoSlider":
-            lftValue = (this.value);
+            lfoValue = (this.value);
             document.querySelector("#lfoOutput").innerHTML = (this.value) + " Hz";
             break;
     }
@@ -92,6 +92,7 @@ function changeParameter() {
 
 function startNote(note, velocity) {
     velocityVolumes[note].gain.linearRampToValueAtTime(velocity / 127, context.currentTime + attackValue);
+    console.log(attackValue);
     oscillators[note] = context.createOscillator();
     oscillators[note].frequency.value = allFrequencies[note];
     oscillators[note].connect(velocityVolumes[note]);
@@ -100,8 +101,8 @@ function startNote(note, velocity) {
 
 function stopNote(note, velocity) {
     velocityVolumes[note].gain.cancelScheduledValues(0);
-    velocityVolumes[note].gain.linearRampToValueAtTime(0, context.currentTime + releaseValue);
-    oscillators[note].stop(context.currentTime + 0.005);
+    velocityVolumes[note].gain.linearRampToValueAtTime(0, context.currentTime + 0.03);
+    oscillators[note].stop(context.currentTime +  0.005);
 }
 
 function controlChange(controllerNr, value) {
