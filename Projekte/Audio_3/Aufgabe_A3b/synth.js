@@ -74,6 +74,8 @@ lfo.connect(lfoGain);
 filter.connect(distortion);
 distortion.connect(context.destination);
 
+filter.frequency.value = sliders["frequencySlider"].value;
+
 
 for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("mousedown", function() {startNote(i + octaveShifter, 100)});
@@ -154,19 +156,19 @@ function changeParameter() {
             document.querySelector("#distortionOutput").innerHTML = (this.value);
             break;
         case "frequencySlider":
-            filter.frequency.value = (this.value);
+            filter.frequency.value = (this.value / 1);
             document.querySelector("#frequencyOutput").innerHTML = (this.value) + " Hz";
             break;
         case "detuneSlider":
-            filter.detune.value = (this.value);
+            filter.detune.value = (this.value /1);
             document.querySelector("#detuneOutput").innerHTML = (this.value) + " cents";
             break;
         case "qSlider":
-            filter.Q.value = (this.value);
+            filter.Q.value = (this.value/1);
             document.querySelector("#qOutput").innerHTML = (this.value) + " ";
             break;
         case "filterGainSlider":
-            filter.gain.value = (this.value);
+            filter.gain.value = (this.value/1);
             document.querySelector("#filterGainOutput").innerHTML = (this.value) + " dB";
             break;
     }
