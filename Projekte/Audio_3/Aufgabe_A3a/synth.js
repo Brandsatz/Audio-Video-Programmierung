@@ -74,11 +74,11 @@ for (let i = 0; i < sliders.length; i++) {
 function changeParameter() {
     switch (this.id) {
         case "attackSlider":
-            attackValue = (this.value);
-            document.querySelector("#attackOutput").innerHTML = (this.value) + " sec";
+            attackValue = (this.value / 1);
+            document.querySelector("#attackOutput").innerHTML = (this.value / 1) + " sec";
             break;
         case "releaseSlider":
-            releaseValue = (this.value);
+            releaseValue = (this.value / 1);
             document.querySelector("#releaseOutput").innerHTML = (this.value) + " sec";
             break;
         case "lfoSlider":
@@ -91,6 +91,8 @@ function changeParameter() {
 
 
 function startNote(note, velocity) {
+
+    velocityVolumes[note].gain.cancelScheduledValues(0);
     velocityVolumes[note].gain.linearRampToValueAtTime(velocity / 127, context.currentTime + attackValue);
     console.log(attackValue);
     oscillators[note] = context.createOscillator();
@@ -101,8 +103,8 @@ function startNote(note, velocity) {
 
 function stopNote(note, velocity) {
     velocityVolumes[note].gain.cancelScheduledValues(0);
-    velocityVolumes[note].gain.linearRampToValueAtTime(0, context.currentTime + 0.03);
-    oscillators[note].stop(context.currentTime +  0.005);
+    velocityVolumes[note].gain.linearRampToValueAtTime(0, context.currentTime + releaseValue);
+    oscillators[note].stop(context.currentTime + releaseValue + 0.005);
 }
 
 function controlChange(controllerNr, value) {
