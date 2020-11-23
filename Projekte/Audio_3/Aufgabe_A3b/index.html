@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>AVPRG Aufgabe 13</title>
+    </head>
+    <body>
+        <!-- Dies ist der Code für die Aufgabe-->
+
+        <button id="button1" class="button">1</button>
+        <button id="button2" class="button">2</button>
+        <button id="button3" class="button">3</button>
+        <button id="button4" class="button">4</button>
+
+        <div id="attackContainer"> Attack
+            <input type="range" min="0" max="1" value="0.1" step="0.01" class="slider" id="attackSlider">
+            <span id="attackOutput">0.1 sec</span>
+        </div>
+
+        <div id="releaseContainer"> Release
+            <input type="range" min="0" max="1" value="0.1" step ="0.01" class="slider" id="releaseSlider">
+            <span id="releaseOutput">0.1 sec</span>
+        </div>
+
+        <div id="lfoContainer"> LFO
+            <input type="range" min="0" max="100" value="2" step="1" class="slider" id="lfoSlider">
+            <span id="lfoOutput">2 Hz</span>
+        </div>
+
+        <div id="distortionContainer"> Distortion
+            <input type="range" min="0" max="400" value="0" class="slider" id="distortionSlider">
+            <span id="distortionOutput">0</span>
+        </div>
+
+
+        <div id="filterHead" class="filter">Filter</div>
+
+        <div id="frequencyContainer" class="filter"> Frequency
+            <input type="range" min="1000" max="20000" value="20000" class="slider" id="frequencySlider">
+            <span id="frequencyOutput">20000 Hz</span>
+        </div>
+
+        <div id="detuneContainer" class="filter"> Detune
+            <input type="range" min="0" max="100" value="0" class="slider" id="detuneSlider">
+            <span id="detuneOutput">0 cents</span>
+        </div>
+
+        <div id="qContainer" class="filter"> Quality
+            <input type="range" min="0" max="100" value="1" class="slider" id="qSlider">
+            <span id="qOutput">0</span>
+        </div>
+
+        <div id="filterGainContainer" class="filter"> Gain
+            <input type="range" min="-40" max="40" value="0" class="slider" id="filterGainSlider">
+            <span id="filterGainOutput">0 dB</span>
+        </div>
+        
+
+        <div id="typeContainer" class="filter">Type
+            <select id="filterSelectList">
+                <option value="lowpass">Lowpass</option>
+                <option value="highpass">Highpass</option>
+                <option value="bandpass">Bandpass</option>
+                <option value="allpass">Allpass</option>
+                <option value="lowshelf">lowshelf</option>
+                <option value="highshelf">highshelf</option>
+                <option value="peaking">Peaking</option>
+                <option value="notch">Notch</option>
+            </select>
+        </div>
+
+
+
+
+
+        <div id="reverbContainer">Reverb
+            <select id="reverbSelectList">
+                <option value="room">Room</option>
+                <option value="church">Church</option>
+                <option value="cave">Cave</option>
+                <option value="garage">Garage</option>
+            </select>
+            <button id="reverbOnOffButton" class="reverbOffOnButton">Turn off</button>
+        </div>
+
+
+
+        <script src="midi.js"></script>
+        <script src="synth.js"></script>
+        <script src="reverb.js"></script>
+        <!-------------------------------------->
+    </body>
+</html>

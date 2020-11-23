@@ -1,0 +1,112 @@
+html, body {
+    padding: 0; margin: 0;
+    text-align: center;
+    background: #767b98;
+    color: #d8d6c2;
+    font-family: monospace;
+    width: 100%;
+}
+
+div {
+    font-size: 1.5em;
+}
+
+.button {
+    background-color: #e0d336;
+    border: none;
+    color: #ffffff;
+    font-size: 2.8em;
+    padding: 0.5em 1.5em;
+    font-family: monospace;;
+}
+
+button:active {
+   background: #ffffff;
+    color: #e0d336;
+}
+
+.slider {
+    margin: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #1dba23;
+    cursor: pointer;
+}
+
+
+#attackContainer {
+    background: #cf0a0ae0;
+}
+#releaseContainer {
+    background: #c57206;
+}
+#lfoContainer {
+    background: #e7c609ea;
+}
+
+#distortionContainer {
+    background: #6bb11c;
+}
+#reverbContainer {
+    background: #088546;
+}
+
+.reverbOffOnButton {
+    background-color: #05b85e;
+    border: none;
+    color: #ffffff;
+    font-size: 0.8em;
+    margin:0.5em;
+    font-family: monospace;;
+}
+
+.reverbOffOnButton:active {
+   background: #01ff80;
+    color: #000000;
+}
+
+
+.filter{
+    width: 100%;
+    background: #dda2dd;
+}
+#frequencyContainer {
+    background: #f559e8;
+}
+#detuneContainer {
+    background: #e027e0;
+}
+#qContainer {
+    background: #ac19b9;
+}
+#filterGainContainer {
+    background: #7c067c;
+}
+#typeContainer {
+    background: #5c045f;
+}
+
+#reverbSelectList, #filterSelectList  {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 0.8em;
+    font-family: monospace;
+}
