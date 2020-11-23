@@ -46,13 +46,22 @@ let context = new AudioContext();
 let oscillators = [];
 let velocityVolumes = [];
 let octaveShifter = 60;
+
+var lfo = context.createOscillator();
+var lfoGain = context.createGain();
+
 let buttons = document.getElementsByClassName("button");
 
 let sliders = document.getElementsByClassName("slider");
 
 let attackValue = 0.1;
 let releaseValue = document.querySelector("#releaseSlider").value;
-let lfoValue = document.querySelector("#lfoSlider").value;
+
+lfoGain.gain.value = 0.05;
+lfo.frequency.value = document.querySelector("#lfoSlider").value;
+
+lfo.start();
+lfo.connect(lfoGain);
 
 
 
@@ -82,7 +91,7 @@ function changeParameter() {
             document.querySelector("#releaseOutput").innerHTML = (this.value) + " sec";
             break;
         case "lfoSlider":
-            lfoValue = (this.value);
+            lfo.frequency.value = (this.value / 1);
             document.querySelector("#lfoOutput").innerHTML = (this.value) + " Hz";
             break;
     }
@@ -91,10 +100,9 @@ function changeParameter() {
 
 
 function startNote(note, velocity) {
-
     velocityVolumes[note].gain.cancelScheduledValues(0);
     velocityVolumes[note].gain.linearRampToValueAtTime(velocity / 127, context.currentTime + attackValue);
-    console.log(attackValue);
+    lfoGain.connect(velocityVolumes[note].gain);
     oscillators[note] = context.createOscillator();
     oscillators[note].frequency.value = allFrequencies[note];
     oscillators[note].connect(velocityVolumes[note]);
