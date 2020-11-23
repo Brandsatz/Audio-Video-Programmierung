@@ -48,6 +48,14 @@ let velocityVolumes = [];
 let octaveShifter = 60;
 let buttons = document.getElementsByClassName("button");
 
+let sliders = document.getElementsByClassName("slider");
+
+let attackValue = document.querySelector("#attackSlider").value;
+let releaseValue = document.querySelector("#releaseSlider").value;
+let lfoValue = document.querySelector("#lfoSlider").value;
+
+
+
 for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("mousedown", function() {startNote(i + octaveShifter, 127)});
     buttons[i].addEventListener("mouseup", function() {stopNote(i + octaveShifter, 0)});
@@ -59,8 +67,31 @@ for (let i = 0; i < 127; i++) {
 
 }
 
+for (let i = 0; i < sliders.length; i++) {
+    sliders[i].addEventListener("mousemove", changeParameter)
+}
+
+function changeParameter() {
+    switch (this.id) {
+        case "attackSlider":
+            attackValue = (this.value);
+            document.querySelector("#attackOutput").innerHTML = (this.value) + " sec";
+            break;
+        case "releaseSlider":
+            releaseValue = (this.value);
+            document.querySelector("#releaseOutput").innerHTML = (this.value) + " sec";
+            break;
+        case "lfoSlider":
+            lftValue = (this.value);
+            document.querySelector("#lfoOutput").innerHTML = (this.value) + " Hz";
+            break;
+    }
+}
+
+
+
 function startNote(note, velocity) {
-    velocityVolumes[note].gain.value = velocity / 127;
+    velocityVolumes[note].gain.linearRampToValueAtTime(velocity / 127, context.currentTime + attackValue);
     oscillators[note] = context.createOscillator();
     oscillators[note].frequency.value = allFrequencies[note];
     oscillators[note].connect(velocityVolumes[note]);
@@ -69,7 +100,7 @@ function startNote(note, velocity) {
 
 function stopNote(note, velocity) {
     velocityVolumes[note].gain.cancelScheduledValues(0);
-    velocityVolumes[note].gain.linearRampToValueAtTime(0, context.currentTime + 0.003);
+    velocityVolumes[note].gain.linearRampToValueAtTime(0, context.currentTime + releaseValue);
     oscillators[note].stop(context.currentTime + 0.005);
 }
 
@@ -80,3 +111,4 @@ function controlChange(controllerNr, value) {
 function pitchBend(LSB, HSB) {
     // do something...
 }
+
