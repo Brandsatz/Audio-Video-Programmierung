@@ -99,7 +99,6 @@ function changeParameter() {
 }
 
 
-
 function startNote(note, velocity) {
     velocityVolumes[note].gain.cancelScheduledValues(0);
     velocityVolumes[note].gain.linearRampToValueAtTime(velocity / 127, context.currentTime + attackValue);

@@ -45,22 +45,70 @@ var allFrequencies = [
 let context = new AudioContext();
 let oscillators = [];
 let velocityVolumes = [];
+let distortion = context.createWaveShaper();
+let filter = context.createBiquadFilter();
 let octaveShifter = 60;
+
+let lfo = context.createOscillator();
+let lfoGain = context.createGain();
+
 let buttons = document.getElementsByClassName("button");
 
+let sliders = document.getElementsByClassName("slider");
+let reverbSelectlist = document.querySelector("reverbSelectList");
+let filterSelectlist = document.querySelector("filterSelectList");
+let reverbOn = true;
+
+let attackValue = 0.1;
+let releaseValue = document.querySelector("#releaseSlider").value;
+
+lfoGain.gain.value = 0.1;
+lfo.frequency.value = document.querySelector("#lfoSlider").value;
+
+lfo.start();
+lfo.connect(lfoGain);
+
+filter.connect(distortion);
+distortion.connect(context.destination);
+
+
 for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("mousedown", function() {startNote(i + octaveShifter, 127)});
+    buttons[i].addEventListener("mousedown", function() {startNote(i + octaveShifter, 100)});
     buttons[i].addEventListener("mouseup", function() {stopNote(i + octaveShifter, 0)});
 }
 
 for (let i = 0; i < 127; i++) {
     velocityVolumes[i] = context.createGain();
-    velocityVolumes[i].connect(context.destination);
+    lfoGain.connect(velocityVolumes[i].gain);
+    velocityVolumes[i].connect(filter);
 
 }
 
+// for (let i = 0; i < sliders.length; i++) {
+//     sliders[i].addEventListener("mousemove", changeParameter)
+// }
+
+// function changeParameter() {
+//     switch (this.id) {
+//         case "attackSlider":
+//             attackValue = (this.value / 1);
+//             document.querySelector("#attackOutput").innerHTML = (this.value / 1) + " sec";
+//             break;
+//         case "releaseSlider":
+//             releaseValue = (this.value / 1);
+//             document.querySelector("#releaseOutput").innerHTML = (this.value) + " sec";
+//             break;
+//         case "lfoSlider":
+//             lfo.frequency.value = (this.value / 1);
+//             document.querySelector("#lfoOutput").innerHTML = (this.value) + " Hz";
+//             break;
+//     }
+// }
+
+
 function startNote(note, velocity) {
-    velocityVolumes[note].gain.value = velocity / 127;
+    velocityVolumes[note].gain.cancelScheduledValues(0);
+    velocityVolumes[note].gain.linearRampToValueAtTime(velocity / 127, context.currentTime + attackValue);
     oscillators[note] = context.createOscillator();
     oscillators[note].frequency.value = allFrequencies[note];
     oscillators[note].connect(velocityVolumes[note]);
@@ -69,8 +117,8 @@ function startNote(note, velocity) {
 
 function stopNote(note, velocity) {
     velocityVolumes[note].gain.cancelScheduledValues(0);
-    velocityVolumes[note].gain.linearRampToValueAtTime(0, context.currentTime + 0.003);
-    oscillators[note].stop(context.currentTime + 0.005);
+    velocityVolumes[note].gain.linearRampToValueAtTime(0, context.currentTime + releaseValue);
+    oscillators[note].stop(context.currentTime + releaseValue + 0.005);
 }
 
 function controlChange(controllerNr, value) {
@@ -80,4 +128,3 @@ function controlChange(controllerNr, value) {
 function pitchBend(LSB, HSB) {
     // do something...
 }
-
