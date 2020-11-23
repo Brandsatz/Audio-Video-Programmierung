@@ -57,7 +57,7 @@ let sliders = document.getElementsByClassName("slider");
 let attackValue = 0.1;
 let releaseValue = document.querySelector("#releaseSlider").value;
 
-lfoGain.gain.value = 0.05;
+lfoGain.gain.value = 0.1;
 lfo.frequency.value = document.querySelector("#lfoSlider").value;
 
 lfo.start();
@@ -66,12 +66,13 @@ lfo.connect(lfoGain);
 
 
 for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("mousedown", function() {startNote(i + octaveShifter, 127)});
+    buttons[i].addEventListener("mousedown", function() {startNote(i + octaveShifter, 100)});
     buttons[i].addEventListener("mouseup", function() {stopNote(i + octaveShifter, 0)});
 }
 
 for (let i = 0; i < 127; i++) {
     velocityVolumes[i] = context.createGain();
+    lfoGain.connect(velocityVolumes[i].gain);
     velocityVolumes[i].connect(context.destination);
 
 }
@@ -102,7 +103,6 @@ function changeParameter() {
 function startNote(note, velocity) {
     velocityVolumes[note].gain.cancelScheduledValues(0);
     velocityVolumes[note].gain.linearRampToValueAtTime(velocity / 127, context.currentTime + attackValue);
-    lfoGain.connect(velocityVolumes[note].gain);
     oscillators[note] = context.createOscillator();
     oscillators[note].frequency.value = allFrequencies[note];
     oscillators[note].connect(velocityVolumes[note]);
