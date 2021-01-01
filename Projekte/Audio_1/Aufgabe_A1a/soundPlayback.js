@@ -2,7 +2,7 @@ let context = new AudioContext();
 
 
 document.querySelector("#bass").addEventListener("mousedown", function(){
-    console.info("Bass");
+    console.info("#Bass");
     let bassSound = new Audio("sound1.wav");
     let bassSoundNode = context.createMediaElementSource(bassSound);
 

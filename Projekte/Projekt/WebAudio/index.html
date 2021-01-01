@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>AVPRG Projekt Klang der Steine</title>
+    </head>
+    <body>
+        <!-- Dies ist der Code für die Aufgabe-->
+
+        <button id="button1" class="button">Play</button>
+
+        <div id="drumMachine">
+            <div id="bassContainer">
+                <img src="icons/Stein Blau Klein.png">
+                <img src="icons/bass-drum.png" height="48" width="48">
+                
+                    <div class="box">1/8</div>
+                    <div class="box">2/8</div>
+                    <div class="box">3/8</div>
+                    <div class="box">4/8</div>
+                    <div class="box">5/8</div>
+                    <div class="box">6/8</div>
+                    <div class="box">7/8</div>
+                    <div class="box">8/8</div>
+                  
+            </div>
+
+            <div id="tomContainer">
+                <img src="icons/Stein Gelb Klein.png">
+                <img src="icons/drum.png" height="48" width="48">
+                
+                    <div class="box">1/8</div>
+                    <div class="box">2/8</div>
+                    <div class="box">3/8</div>
+                    <div class="box">4/8</div>
+                    <div class="box">5/8</div>
+                    <div class="box">6/8</div>
+                    <div class="box">7/8</div>
+                    <div class="box">8/8</div>
+                  
+            </div>
+
+            <div id="snareContainer">
+                <img src="icons/Stein Rot Klein.png">
+                <img src="icons/snare.png" height="48" width="48">
+               
+                    <div class="box">1/8</div>
+                    <div class="box">2/8</div>
+                    <div class="box">3/8</div>
+                    <div class="box">4/8</div>
+                    <div class="box">5/8</div>
+                    <div class="box">6/8</div>
+                    <div class="box">7/8</div>
+                    <div class="box">8/8</div>
+                  
+            </div>
+
+            <div id="clapContainer">
+                <img src="icons/Stein Gruen Klein.png">
+                <img src="icons/clapping.png" height="48" width="48">
+                
+                    <div class="box">1/8</div>
+                    <div class="box">2/8</div>
+                    <div class="box">3/8</div>
+                    <div class="box">4/8</div>
+                    <div class="box">5/8</div>
+                    <div class="box">6/8</div>
+                    <div class="box">7/8</div>
+                    <div class="box">8/8</div>
+                 
+            </div>
+
+            <div id="crashContainer">
+                <img src="icons/Stein Weis Klein.png">
+                <img src="icons/cymbals.png" height="48" width="48">
+                
+                    <div class="box">1/8</div>
+                    <div class="box">2/8</div>
+                    <div class="box">3/8</div>
+                    <div class="box">4/8</div>
+                    <div class="box">5/8</div>
+                    <div class="box">6/8</div>
+                    <div class="box">7/8</div>
+                    <div class="box">8/8</div>
+                  
+            </div>
+                      
+        </div>
+
+
+        <div id="geschwindigkeitContainer">Geschwindigkeit
+            <input type="range" min="10" max="200" value="90" class="slider" id="geschwindigkeitSlider">
+            <span id="geschwindigkeitOutput">90 bpm</span>
+        </div>
+
+
+        <div id="camContainer">
+            <video id="video">Video stream not available.</video>
+        </div>
+
+        <div id="reverbContainer">Reverb
+            <button id="reverbOnOffButton" class="reverbOffOnButton">Turn off</button>
+            <select id="reverbSelectList">
+                <option value="room">Room</option>
+                <option value="church">Church</option>
+                <option value="cave">Cave</option>
+                <option value="garage">Garage</option>
+            </select>
+        </div>
+
+        <div id="analyseContainer">
+            <button id="analyseButton" class="button">Analysieren</button>
+        </div>
+
+
+
+        
+        <!-- <script src="midi.js"></script>  -->
+        <script src ="webcam.js"></script>
+        
+        <!-------------------------------------->
+    </body>
+</html>
