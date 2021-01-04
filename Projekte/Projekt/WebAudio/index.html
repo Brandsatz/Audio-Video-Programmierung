@@ -10,6 +10,14 @@
         <button id="startButton" class="button">Play</button>
 
         <div id="drumMachine">
+
+            <div id="gainContainer">Lautstärke
+                <input type="range" min="0" max="100" value="70" class="slider" id="gainSlider">
+                <div id="gainOutput">70%</div>
+                <!-- <span id="gainOutput">70%</span> -->
+            </div>
+
+
             <div id="bassContainer">
                 <div class="iconContainer">
                     <img src="icons/Stein Blau Klein.png">
@@ -101,6 +109,8 @@
                       
         </div>
 
+        
+
 
         <div id="geschwindigkeitContainer">Geschwindigkeit
             <input type="range" min="10" max="200" value="90" class="slider" id="geschwindigkeitSlider">
@@ -130,8 +140,12 @@
 
         
         <!-- <script src="midi.js"></script>  -->
+        <script src ="main.js"></script>
+        <script src ="convolver.js"></script>
+        <script src ="slider.js"></script>
         <script src ="webcam.js"></script>
         <script src ="classtest.js"></script>
+
         
         <!-------------------------------------->
     </body>

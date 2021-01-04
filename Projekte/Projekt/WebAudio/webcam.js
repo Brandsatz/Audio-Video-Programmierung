@@ -16,6 +16,8 @@
   
     var video = null;
 
+    let isPlaying = true;
+
   
     function startup() {
       video = document.getElementById('video');
@@ -49,3 +51,23 @@
   
    
     window.addEventListener('load', startup, false);
+
+
+
+    document.querySelector("#analyseButton").addEventListener("click", function(e){
+      if (isPlaying){
+        isPlaying = !isPlaying;
+        //Das Video wird zunächst pausiert um ein Standbild zu speichern. 
+        // Danach wird die Webcam von HTML entkoppelt, damit Python auf diese zugreifen kann.
+        video.pause();
+        video.srcObject.getTracks().forEach( (track) => {track.stop();});
+        document.querySelector("#analyseButton").innerHTML = "Einrichten";
+      }else{
+        isPlaying = !isPlaying;
+        //Der Webcamstream wird erneut eingerichtet
+        startup();
+        document.querySelector("#analyseButton").innerHTML = "Analysieren";
+      }
+    });
+
+    
