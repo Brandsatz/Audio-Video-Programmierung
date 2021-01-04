@@ -10,9 +10,9 @@ function changeParameter() {
             gain.value = (this.value / 100);
             document.querySelector("#gainOutput").innerHTML = (this.value) + "%";
             break;
-        case "geschwindigkeitSlider":
-            releaseValue = (this.value / 1);
-            document.querySelector("#geschwindigkeitOutput").innerHTML = (this.value) + " bpm";
+        case "tempoSlider":
+            tempo = (this.value / 1);
+            document.querySelector("#tempoOutput").innerHTML = (this.value) + " bpm";
             break;
     }
 }
