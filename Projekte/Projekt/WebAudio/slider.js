@@ -7,8 +7,8 @@ for (let i = 0; i < sliders.length; i++) {
 function changeParameter() {
     switch (this.id) {
         case "gainSlider":
-            gain.value = (this.value / 100);
-            document.querySelector("#gainOutput").innerHTML = (this.value) + "%";
+            gain.value = (this.value);
+            document.querySelector("#gainOutput").innerHTML = (this.value);
             break;
         case "tempoSlider":
             tempo = (this.value / 1);

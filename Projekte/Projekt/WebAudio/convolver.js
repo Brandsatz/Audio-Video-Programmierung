@@ -4,8 +4,12 @@ let reverbSelectList = document.querySelector("#reverbSelectList");
 loadImpulseResponse("room");
 
 reverbSelectList.addEventListener("change", function(e){
-    var name = reverbSelectList.options[reverbSelectList.selectedIndex].value;
-    loadImpulseResponse(name);
+    if(reverbOn){
+        var name = reverbSelectList.options[reverbSelectList.selectedIndex].value;
+        loadImpulseResponse(name);
+    }else{
+        var name = reverbSelectList.options[reverbSelectList.selectedIndex].value;
+    }
 });
 
 function loadImpulseResponse(name){
@@ -20,7 +24,6 @@ function loadImpulseResponse(name){
             convolver = context.createConvolver();
             convolver.buffer = buffer;
             convolver.normalize = true;
-
             gain.connect(convolver);
             convolver.connect(context.destination);
         });
