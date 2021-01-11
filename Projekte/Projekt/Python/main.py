@@ -152,7 +152,8 @@ if(quadrat!= None):
 
 
 
-midiOutput = mido.open_output("IAC-Treiber Bus 1")
+# midiOutput = mido.open_output("IAC-Treiber Bus 1")
+midiOutput = mido.open_output("LoopBe Internal MIDI 1)
 
 def sendNoteOn(farbe, position):
     message = mido.Message('note_on', note = farbe, velocity = position)
