@@ -57,6 +57,9 @@ function midiZuweisung(sound, positionID){
             crashActive[position] = 1;
             document.getElementById('crash'+positionID).setAttribute('class', 'activeBox');
             break;
+        case 6;
+            alert("Fehler bei der Bildanalyse, bitte nochmal versuchen!")
+
     }
 };
 
