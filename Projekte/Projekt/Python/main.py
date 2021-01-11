@@ -3,13 +3,12 @@ import cv2
 import rtmidi
 import mido
 
-print( cv2.__version__ )
 
 
 img = cv2.imread("image2.jpeg")
-#cv2.imshow('Original', img)
-grosse = img.shape
-print(grosse)
+cv2.imshow('Original', img)
+#grosse = img.shape
+#print(grosse)
 
 hue = 0
 satu = 0
@@ -66,7 +65,6 @@ def rechteck():
             begrenzung.append(index)
             cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
             i1 = index
-            hohe = h
             if h !=h1:
                 x2 =x
                 y2 =y
@@ -86,7 +84,8 @@ def rechteck():
                 i1 = index
 
         x2,y2,w2,h2 = cv2.boundingRect(contours[i1])
-        begrenzung.append(i1)
+        if (y2+h2-100)<(y2+h2)<(y2+h2+100):
+            begrenzung.append(i1)
 
     print(h1, vergleichsH, h2)
     print(begrenzung)
@@ -94,18 +93,37 @@ def rechteck():
     #begrenzung.append(i1)
     #print (maxArea, maxArea1)
 
-    if (len(begrenzung)<2):
+    if (len(begrenzung)!= 2):
         print("Etwas ist schief gelaufen")
+        sendNoteOn(6,0)
         return
 
     cv2.imshow('schwarze Steine',mask)
     position = [x1,y1,w1,h1,x2,y2,w2,h2,maxArea1]
     return (position)
 
-#rechteck()
+#Position der Steine berechnen
+def position():
+
+    #Flaeche zwischen den schwarzen Steinen
+    if x2>x1:
+        flaeche = x2-(x1+w1)
+    else:
+        flaeche = x1-(x2+w2)
+
+    return (flaeche)
+
+#Bild zuschneiden
+def zuschneiden():
+    if x2>x1:
+        crop = img[y1-100:y2+h2+20,x1-10:x2+w2+10]
+    else:
+        crop = img[y2-100:y1+h1+20,x2-10:x1+w1+10]
+
+    return crop
+
 
 quadrat = rechteck()
-print(quadrat)
 
 if(quadrat!= None):
 
@@ -119,17 +137,6 @@ if(quadrat!= None):
     swSteine = quadrat[8]*0.7
     #print(swSteine)
 
-    #Position der Steine berechnen
-    def position():
-
-        #Flaeche zwischen den schwarzen Steinen
-        if x2>x1:
-            flaeche = x2-(x1+w1)
-        else:
-            flaeche = x1-(x2+w2)
-
-        return (flaeche)
-
     fl = position()
     fl0 = 0
     fl1 = fl*0.125
@@ -141,26 +148,16 @@ if(quadrat!= None):
     fl7 = fl*0.875
     fl8 = fl
 
-    #print(img)
-    #Bild zuschneiden
-    def zuschneiden():
-        if x2>x1:
-            crop = img[y1-100:y2+h2+20,x1-10:x2+w2+10]
-        else:
-            crop = img[y2-100:y1+h1+20,x2-10:x1+w1+10]
-
-        return crop
-
-    #zuschneiden()
     img2 = zuschneiden()
-    #print (img2)
+
+
 
 midiOutput = mido.open_output("IAC-Treiber Bus 1")
 
 def sendNoteOn(farbe, position):
     message = mido.Message('note_on', note = farbe, velocity = position)
     midiOutput.send(message)
-    print(message)
+    #print(message)
 
 
 
@@ -226,7 +223,7 @@ def farben(hue, satu, vis, farbe, titel):
        
             sendNoteOn(farbe, position)
             #print("jetzt wird das Bild erzeugt")
-            cv2.imshow(titel, mask)
+            #cv2.imshow(titel, mask)
 
 #gelb
 farben(18, 204, 132, 2, "Gelb")
