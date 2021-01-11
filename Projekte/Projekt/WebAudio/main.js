@@ -57,6 +57,9 @@ function midiZuweisung(sound, positionID){
             crashActive[position] = 1;
             document.getElementById('crash'+positionID).setAttribute('class', 'activeBox');
             break;
+        case 6;
+            alert("Fehler bei der Bildanalyse, bitte nochmal versuchen!")
+
     }
 };
 
@@ -83,52 +86,92 @@ function playSound(buffer, time) {
 
 
 
-document.querySelector("#startButton").addEventListener('click', startStopLoop);
-
-
-function startStopLoop(){
+document.querySelector("#startButton").addEventListener('click', function(e){
+    go;
     if(!isPlaying){
-        isPlaying = !isPlaying;
-        document.querySelector("#startButton").innerHTML = "Stop";
-        
-        let intervall = (60 / tempo)*8*1000;
-        
-        let drumloop = setInterval(loop,intervall);
-        
-
+        isPlaying = !isPlaying; 
     }else{
-        isPlaying = !isPlaying;
-        document.querySelector("#startButton").innerHTML = "Play";
-        clearInterval(drumloop);
+        isPlaying = !isPlaying
     }
-};
+});
 
-function loop(){
-    document.querySelector("#startButton").addEventListener('click',function(e){
+
+// function startStopLoop(){
+//     if(!isPlaying){
+//         isPlaying = !isPlaying;
+//         document.querySelector("#startButton").innerHTML = "Stop";
         
-    })
-    
-    let quarterNoteTime = (60 / tempo);
-    let startTime = context.currentTime;
-    let bass = audioBuffers[0];
-    let tom = audioBuffers[1];
-    let snare = audioBuffers[2];
-    let clap = audioBuffers[3];
-    let crash = audioBuffers[4];
+//         let intervall = (60 / tempo)*8*1000;
+        
+//         let drumloop = setInterval(loop,intervall);
+        
 
-    for(i=0; i<8; i++) {
-        if(bassActive[i]==1){
-            playSound(bass, startTime + i * quarterNoteTime);
-        }if (tomActive[i]==1) {
-            playSound(tom, startTime + i * quarterNoteTime);
-        }if (snareActive[i]==1) {
-            playSound(snare, startTime + i * quarterNoteTime);
-        }if (clapActive[i]==1) {
-            playSound(clap, startTime + i * quarterNoteTime);
-        }if (crashActive[i]==1) {
-            playSound(crash, startTime + i * quarterNoteTime);
-        }        
+//     }else{
+//         isPlaying = !isPlaying;
+//         document.querySelector("#startButton").innerHTML = "Play";
+//         clearInterval(drumloop);
+//     }
+// };
+
+function go(){
+    if(isPlaying){
+        let intervall = (60 / tempo)*8*1000;
+
+        let quarterNoteTime = (60 / tempo);
+        let startTime = context.currentTime;
+        let bass = audioBuffers[0];
+        let tom = audioBuffers[1];
+        let snare = audioBuffers[2];
+        let clap = audioBuffers[3];
+        let crash = audioBuffers[4];
+
+        for(i=0; i<8; i++) {
+            if(bassActive[i]==1){
+                playSound(bass, startTime + i * quarterNoteTime);
+            }if (tomActive[i]==1) {
+                playSound(tom, startTime + i * quarterNoteTime);
+            }if (snareActive[i]==1) {
+                playSound(snare, startTime + i * quarterNoteTime);
+            }if (clapActive[i]==1) {
+                playSound(clap, startTime + i * quarterNoteTime);
+            }if (crashActive[i]==1) {
+                playSound(crash, startTime + i * quarterNoteTime);
+            }        
+        }
+
+        setTimeout(go,intervall);
+    }else{
+        break;
     }
-    
-    
 }
+
+
+// function loop(){
+//     document.querySelector("#startButton").addEventListener('click',function(e){
+        
+//     })
+    
+//     let quarterNoteTime = (60 / tempo);
+//     let startTime = context.currentTime;
+//     let bass = audioBuffers[0];
+//     let tom = audioBuffers[1];
+//     let snare = audioBuffers[2];
+//     let clap = audioBuffers[3];
+//     let crash = audioBuffers[4];
+
+//     for(i=0; i<8; i++) {
+//         if(bassActive[i]==1){
+//             playSound(bass, startTime + i * quarterNoteTime);
+//         }if (tomActive[i]==1) {
+//             playSound(tom, startTime + i * quarterNoteTime);
+//         }if (snareActive[i]==1) {
+//             playSound(snare, startTime + i * quarterNoteTime);
+//         }if (clapActive[i]==1) {
+//             playSound(clap, startTime + i * quarterNoteTime);
+//         }if (crashActive[i]==1) {
+//             playSound(crash, startTime + i * quarterNoteTime);
+//         }        
+//     }
+    
+    
+// }
