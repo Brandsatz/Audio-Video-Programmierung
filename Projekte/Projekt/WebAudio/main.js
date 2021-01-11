@@ -57,7 +57,7 @@ function midiZuweisung(sound, positionID){
             crashActive[position] = 1;
             document.getElementById('crash'+positionID).setAttribute('class', 'activeBox');
             break;
-        case 6;
+        case 6:
             alert("Fehler bei der Bildanalyse, bitte nochmal versuchen!")
 
     }
@@ -87,12 +87,15 @@ function playSound(buffer, time) {
 
 
 document.querySelector("#startButton").addEventListener('click', function(e){
-    go;
+    
     if(!isPlaying){
-        isPlaying = !isPlaying; 
+        isPlaying = true; 
+        document.querySelector("#startButton").innerHTML = "Stop";
     }else{
-        isPlaying = !isPlaying
+        isPlaying = false;
+        document.querySelector("#startButton").innerHTML = "Play";
     }
+    go();
 });
 
 
@@ -115,6 +118,7 @@ document.querySelector("#startButton").addEventListener('click', function(e){
 
 function go(){
     if(isPlaying){
+        console.log("Test");
         let intervall = (60 / tempo)*8*1000;
 
         let quarterNoteTime = (60 / tempo);
@@ -141,9 +145,9 @@ function go(){
 
         setTimeout(go,intervall);
     }else{
-        break;
+        //do nothin
     }
-}
+};
 
 
 // function loop(){

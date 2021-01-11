@@ -1,8 +1,10 @@
 if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(function (midiAccess) {
-        midi = midiAccess;
+        let midi = midiAccess;
 
         midi.onstatechange = onStateChange;
+
+        // var outputs = midi.outputs.values();
 
         var inputs = midi.inputs.values();
         // loop through all inputs
@@ -28,5 +30,15 @@ function onMIDIMessage(event) {
 function onStateChange(event) {
     console.log(event.port)
 };
+
+// function midiSend(){
+//     // // loop through all outputs
+//     // for (var output = outputs.next(); output && !output.done; output = outputs.next()) {
+//     //     // listen for midi messages
+//     //     input.value.onmidimessage = onMIDIMessage;
+        
+//     // }
+//     MIDI.noteOn(0, 8, 0, 0);
+// };
 
 
