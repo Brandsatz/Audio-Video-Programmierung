@@ -1,6 +1,6 @@
 let context = new AudioContext();
 let convolver = context.createConvolver();
-let gain = context.createGain();
+let gainNode = context.createGain();
 let audioBuffers = [];
 
 let isPlaying = false;
@@ -12,7 +12,9 @@ let snareActive = [0,0,0,0,0,0,0,0];
 let clapActive = [0,0,0,0,0,0,0,0];
 let crashActive = [0,0,0,0,0,0,0,0];
 
-gain.connect(context.destination);
+let classChangeIndex = 0;
+
+gainNode.connect(context.destination);
 
 function machineLeeren(){       //Diese Funktion soll aufgerufen werden, bevor die Drum Machine neu gefüllt wird
     for(let i = 0; i < 8; i++) {
@@ -80,7 +82,7 @@ function getAudioData(i) {
 function playSound(buffer, time) {
     let source = context.createBufferSource();
     source.buffer = buffer;
-    source.connect(gain);
+    source.connect(gainNode);
     source.start(time);
 }
 
@@ -95,31 +97,21 @@ document.querySelector("#startButton").addEventListener('click', function(e){
         isPlaying = false;
         document.querySelector("#startButton").innerHTML = "Play";
     }
-    go();
+    loop();
 });
 
-
-// function startStopLoop(){
-//     if(!isPlaying){
-//         isPlaying = !isPlaying;
-//         document.querySelector("#startButton").innerHTML = "Stop";
-        
-//         let intervall = (60 / tempo)*8*1000;
-        
-//         let drumloop = setInterval(loop,intervall);
-        
-
-//     }else{
-//         isPlaying = !isPlaying;
-//         document.querySelector("#startButton").innerHTML = "Play";
-//         clearInterval(drumloop);
-//     }
-// };
-
-function go(){
+function loop(){
     if(isPlaying){
         console.log("Test");
         let intervall = (60 / tempo)*8*1000;
+        let intervall1 = 0;
+        let intervall2 = (intervall/8);
+        let intervall3 = (intervall/8) * 2;
+        let intervall4 = (intervall/8) * 3;
+        let intervall5 = (intervall/8) * 4;
+        let intervall6 = (intervall/8) * 5;
+        let intervall7 = (intervall/8) * 6;
+        let intervall8 = (intervall/8) * 7;
 
         let quarterNoteTime = (60 / tempo);
         let startTime = context.currentTime;
@@ -140,42 +132,129 @@ function go(){
                 playSound(clap, startTime + i * quarterNoteTime);
             }if (crashActive[i]==1) {
                 playSound(crash, startTime + i * quarterNoteTime);
-            }        
+            }
         }
+        setTimeout(classChange,intervall1);
+        setTimeout(classChange,intervall2);
+        setTimeout(classChange,intervall3);
+        setTimeout(classChange,intervall4);
+        setTimeout(classChange,intervall5);
+        setTimeout(classChange,intervall6);
+        setTimeout(classChange,intervall7);
+        setTimeout(classChange,intervall8);
 
-        setTimeout(go,intervall);
+        setTimeout(loop,intervall);
     }else{
-        //do nothin
+        for(i=0; i<8; i++) {
+            iID = i + 1;
+            if(bassActive[i]==1){
+                document.getElementById('bass'+iID).setAttribute('class', 'activeBox');
+            }else{
+                document.getElementById('bass'+iID).setAttribute('class', 'box');
+            }
+            if (tomActive[i]==1) {
+                document.getElementById('tom'+iID).setAttribute('class', 'activeBox');
+            }else{
+                document.getElementById('tom'+iID).setAttribute('class', 'box');
+            }
+            if (snareActive[i]==1) {
+                document.getElementById('snare'+iID).setAttribute('class', 'activeBox');
+            }else{
+                document.getElementById('snare'+iID).setAttribute('class', 'box');
+            }
+            if (clapActive[i]==1) {
+                document.getElementById('clap'+iID).setAttribute('class', 'activeBox');
+            }else{
+                document.getElementById('clap'+iID).setAttribute('class', 'box');
+            }
+            if (crashActive[i]==1) {
+                document.getElementById('crash'+iID).setAttribute('class', 'activeBox');
+            }else{
+                document.getElementById('crash'+iID).setAttribute('class', 'box');
+            }
+        }
     }
 };
 
+function classChange(){
 
-// function loop(){
-//     document.querySelector("#startButton").addEventListener('click',function(e){
-        
-//     })
-    
-//     let quarterNoteTime = (60 / tempo);
-//     let startTime = context.currentTime;
-//     let bass = audioBuffers[0];
-//     let tom = audioBuffers[1];
-//     let snare = audioBuffers[2];
-//     let clap = audioBuffers[3];
-//     let crash = audioBuffers[4];
+ 
+    if(0 < classChangeIndex && classChangeIndex < 8){
+        indexID = classChangeIndex + 1;
+        indexArray = classChangeIndex - 1;
+        document.getElementById('bass'+indexID).setAttribute('class', 'musicActive');
+        document.getElementById('tom'+indexID).setAttribute('class', 'musicActive');
+        document.getElementById('snare'+indexID).setAttribute('class', 'musicActive');
+        document.getElementById('clap'+indexID).setAttribute('class', 'musicActive');
+        document.getElementById('crash'+indexID).setAttribute('class', 'musicActive');
 
-//     for(i=0; i<8; i++) {
-//         if(bassActive[i]==1){
-//             playSound(bass, startTime + i * quarterNoteTime);
-//         }if (tomActive[i]==1) {
-//             playSound(tom, startTime + i * quarterNoteTime);
-//         }if (snareActive[i]==1) {
-//             playSound(snare, startTime + i * quarterNoteTime);
-//         }if (clapActive[i]==1) {
-//             playSound(clap, startTime + i * quarterNoteTime);
-//         }if (crashActive[i]==1) {
-//             playSound(crash, startTime + i * quarterNoteTime);
-//         }        
-//     }
+        if(bassActive[indexArray]==1){
+            document.getElementById('bass'+classChangeIndex).setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('bass'+classChangeIndex).setAttribute('class', 'box');
+        }
+        if (tomActive[indexArray]==1) {
+            document.getElementById('tom'+classChangeIndex).setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('tom'+classChangeIndex).setAttribute('class', 'box');
+        }
+        if (snareActive[indexArray]==1) {
+            document.getElementById('snare'+classChangeIndex).setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('snare'+classChangeIndex).setAttribute('class', 'box');
+        }
+        if (clapActive[indexArray]==1) {
+            document.getElementById('clap'+classChangeIndex).setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('clap'+classChangeIndex).setAttribute('class', 'box');
+        }
+        if (crashActive[indexArray]==1) {
+            document.getElementById('crash'+classChangeIndex).setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('crash'+classChangeIndex).setAttribute('class', 'box');
+        }
+        classChangeIndex = classChangeIndex + 1;
+    }
+    if(classChangeIndex == 0){
+        indexID = classChangeIndex + 1;
+        document.getElementById('bass'+indexID).setAttribute('class', 'musicActive');
+        document.getElementById('tom'+indexID).setAttribute('class', 'musicActive');
+        document.getElementById('snare'+indexID).setAttribute('class', 'musicActive');
+        document.getElementById('clap'+indexID).setAttribute('class', 'musicActive');
+        document.getElementById('crash'+indexID).setAttribute('class', 'musicActive');
+
+        if(bassActive[7]==1){
+            document.getElementById('bass'+"8").setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('bass'+"8").setAttribute('class', 'box');
+        }
+        if (tomActive[7]==1) {
+            document.getElementById('tom'+"8").setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('tom'+"8").setAttribute('class', 'box');
+        }
+        if (snareActive[7]==1) {
+            document.getElementById('snare'+"8").setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('snare'+"8").setAttribute('class', 'box');
+        }
+        if (clapActive[7]==1) {
+            document.getElementById('clap'+"8").setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('clap'+"8").setAttribute('class', 'box');
+        }
+        if (crashActive[7]==1) {
+            document.getElementById('crash'+"8").setAttribute('class', 'activeBox');
+        }else{
+            document.getElementById('crash'+"8").setAttribute('class', 'box');
+        }
+        classChangeIndex = classChangeIndex + 1;
+    }
     
-    
-// }
+    if(classChangeIndex == 8){ 
+        classChangeIndex = 0;
+    }
+
+
+
+}

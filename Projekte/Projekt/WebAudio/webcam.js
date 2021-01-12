@@ -71,6 +71,7 @@
         // midiZuweisung(3, 4);
         // midiZuweisung(4, 5);
         // midiZuweisung(5, 8);
+        midiSend();
       
 
       }else{

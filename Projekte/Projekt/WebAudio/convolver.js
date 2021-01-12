@@ -24,7 +24,7 @@ function loadImpulseResponse(name){
             convolver = context.createConvolver();
             convolver.buffer = buffer;
             convolver.normalize = true;
-            gain.connect(convolver);
+            gainNode.connect(convolver);
             convolver.connect(context.destination);
         });
     };
