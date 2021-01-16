@@ -2,10 +2,18 @@ import numpy as np
 import cv2
 import rtmidi
 import mido
+import time
+
+def fotoMachen():
+    cap = cv2.VideoCapture(0)
+    time.sleep(0.5)
+    ret, img = cap.read()
+    cv2.imshow("Foto", img)
+    return(img)
 
 
 
-img = cv2.imread("image2.jpeg")
+img = fotoMachen()
 cv2.imshow('Original', img)
 #grosse = img.shape
 #print(grosse)
@@ -14,27 +22,44 @@ hue = 0
 satu = 0
 vis = 0
 
+midiOutput = mido.open_output("IAC-Treiber Bus 1")
+#midiOutput = mido.open_output("LoopBe Internal MIDI 1")
+
+inport = mido.open_input('IAC-Treiber Bus 1')
+
+
+def sendNoteOn(farbe, position):
+    message = mido.Message('note_on', note = farbe, velocity = position)
+    midiOutput.send(message)
+    print(message)
+
 #schwarze Begrenzungssteine rausfiltern
 def rechteck():
 
+
     # Farbkonvertierung
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    #hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Video in drei Farbkanaele splitten
-    h, s, v= cv2.split(hsv)
+    #h, s, v= cv2.split(hsv)
+    b, g, r=cv2.split(img)
 
     # masken berechnen
-    satu = 30
-    vis = 20
-    s_mask = cv2.inRange(s, 0, satu+20)
-    v_mask = cv2.inRange(v, vis-20, vis+20)
+    #satu = 30
+    #vis = 20
+    #s_mask = cv2.inRange(s, 0, satu+20)
+    #v_mask = cv2.inRange(v, vis-20, vis+20)
+    b_mask = cv2.inRange(b, 0, 25)
+    g_mask = cv2.inRange(g, 0, 25)
+    r_mask = cv2.inRange(r, 0, 25)
 
     # Multiplizieren der Einzelmasken
-    mask1 = cv2.multiply(v_mask, s_mask)
+    mask = cv2.multiply(r_mask, g_mask)
+    mask = cv2.multiply(mask, b_mask)
 
     #Dilation-Maske
     kernel = np.ones((2,2),np.uint8)
-    mask = cv2.dilate(mask1,kernel,iterations = 2)
+    mask = cv2.dilate(mask,kernel,iterations = 2)
 
     #Areas finden
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -51,7 +76,7 @@ def rechteck():
     #Diese kennzeichnen
     x1,y1,w1,h1 = cv2.boundingRect(contours[i])
     cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
-    vergleichsH = h1*0.8
+    vergleichsH = h1*0.9
     
 
     #Postition der schwarzen Steine im Array "contours" umranden
@@ -65,7 +90,7 @@ def rechteck():
             begrenzung.append(index)
             cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
             i1 = index
-            if h !=h1:
+            if h != h1:
                 x2 =x
                 y2 =y
                 w2 =w
@@ -73,9 +98,11 @@ def rechteck():
                 maxArea1 = area
 
     gefundeneSteine = len(begrenzung)
+    cv2.imshow('schwarze Steine',mask)
+    
     #falls keine Hoehe vergleichbar ist, zweit groesste Flaeche suchen
     if gefundeneSteine<2:
-        print ("Es gibt nur Flaeche, die ins Raster gefallen ist")
+        print ("Es gibt nur 1 Flaeche, die ins Raster gefallen ist")
         for index in range(len(contours)):
             area = cv2.contourArea(contours[index])
             x,y,w,h = cv2.boundingRect(contours[index])
@@ -84,9 +111,12 @@ def rechteck():
                 i1 = index
 
         x2,y2,w2,h2 = cv2.boundingRect(contours[i1])
+        cv2.rectangle(mask, (x2-10,y2-10), (x2+w2,y2+h2), (100,255,100), 3)
+
         if (y2+h2-100)<(y2+h2)<(y2+h2+100):
             begrenzung.append(i1)
 
+        cv2.imshow('schwarze Steine',mask)
     print(h1, vergleichsH, h2)
     print(begrenzung)
         
@@ -95,10 +125,11 @@ def rechteck():
 
     if (len(begrenzung)!= 2):
         print("Etwas ist schief gelaufen")
+        cv2.imshow("Schief gelaufen", mask)
         sendNoteOn(6,0)
         return
 
-    cv2.imshow('schwarze Steine',mask)
+   
     position = [x1,y1,w1,h1,x2,y2,w2,h2,maxArea1]
     return (position)
 
@@ -113,12 +144,13 @@ def position():
 
     return (flaeche)
 
+
 #Bild zuschneiden
 def zuschneiden():
     if x2>x1:
-        crop = img[y1-100:y2+h2+20,x1-10:x2+w2+10]
+        crop = img[y1-250:y2+h2+20,x1-10:x2+w2+10]
     else:
-        crop = img[y2-100:y1+h1+20,x2-10:x1+w1+10]
+        crop = img[y2-250:y1+h1+20,x2-10:x1+w1+10]
 
     return crop
 
@@ -130,10 +162,14 @@ if(quadrat!= None):
     x1 = quadrat[0]
     y1 = quadrat[1]
     w1 = quadrat[2]
+    h1 = quadrat[3]
     x2 = quadrat[4]
     y2 = quadrat[5]
     w2 = quadrat[6]
     h2 = quadrat[7]
+    höhe1 = h1*2.5
+    höhe2 = h2*2.5
+    print(höhe1, höhe2)
     swSteine = quadrat[8]*0.7
     #print(swSteine)
 
@@ -150,18 +186,12 @@ if(quadrat!= None):
 
     img2 = zuschneiden()
 
+    #if (img2.size>0):
+        #cv2.imshow("Zugeschnitten", img2)
+        #farben(22, 225, 120, 2, "Gelb")
 
 
-# midiOutput = mido.open_output("IAC-Treiber Bus 1")
-midiOutput = mido.open_output("LoopBe Internal MIDI 1")
-
-def sendNoteOn(farbe, position):
-    message = mido.Message('note_on', note = farbe, velocity = position)
-    midiOutput.send(message)
-    #print(message)
-
-
-
+img2 = zuschneiden()
 
 def farben(hue, satu, vis, farbe, titel):
     #img2 = zuschneiden()
@@ -172,9 +202,9 @@ def farben(hue, satu, vis, farbe, titel):
     h, s, v= cv2.split(hsv)
 
     # masken berechnen
-    h_mask = cv2.inRange(h, hue-20, hue+20)
-    s_mask = cv2.inRange(s, satu-20, satu+20)
-    v_mask = cv2.inRange(v, vis-20, vis+20)
+    h_mask = cv2.inRange(h, hue-25, hue+25)
+    s_mask = cv2.inRange(s, satu-25, satu+25)
+    v_mask = cv2.inRange(v, vis-25, vis+25)
 
 
     # Multiplikation der Einzelmasken
@@ -224,23 +254,30 @@ def farben(hue, satu, vis, farbe, titel):
        
             sendNoteOn(farbe, position)
             #print("jetzt wird das Bild erzeugt")
-            #cv2.imshow(titel, mask)
+            cv2.imshow(titel, mask)
+
+if (img2.size>0):
+    cv2.imshow("Zugeschnitten", img2)
+    farben(22, 225, 130, 2, "Gelb")
+
+
+
 
 #gelb
-farben(18, 204, 132, 2, "Gelb")
+#farben(22, 225, 120, 2, "Gelb")
 
 #rot
-farben(0, 200, 87, 3, "Rot")
+#farben(0, 200, 87, 3, "Rot")
 
 #blau
-farben(105, 223, 50, 1, "Blau")
+#arben(105, 223, 50, 1, "Blau")
 
 
 #weiss
-farben(15, 95, 123, 5, "Weiss")
+#farben(15, 95, 123, 5, "Weiss")
 
 #grau
-farben(25, 80, 56, 4, "Grau")
+#farben(25, 80, 56, 4, "Grau")
 
 cv2.waitKey()
    
