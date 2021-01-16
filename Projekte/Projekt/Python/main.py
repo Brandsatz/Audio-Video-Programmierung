@@ -162,18 +162,18 @@ positionArray = rechteck()
 if(positionArray!= None):
 
     geklappt = True
-    x1 = quadrat[0]
-    y1 = quadrat[1]
-    w1 = quadrat[2]
-    h1 = quadrat[3]
-    x2 = quadrat[4]
-    y2 = quadrat[5]
-    w2 = quadrat[6]
-    h2 = quadrat[7]
+    x1 = positionArray[0]
+    y1 = positionArray[1]
+    w1 = positionArray[2]
+    h1 = positionArray[3]
+    x2 = positionArray[4]
+    y2 = positionArray[5]
+    w2 = positionArray[6]
+    h2 = positionArray[7]
     höhe1 = h1*2.5
     höhe2 = h2*2.5
     #print(höhe1, höhe2)
-    swSteine = quadrat[8]*0.7
+    swSteine = positionArray[8]*0.7
     #print(swSteine)
 
     fl = position()
