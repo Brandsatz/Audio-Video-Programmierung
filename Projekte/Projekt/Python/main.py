@@ -8,11 +8,11 @@ hue = 0
 satu = 0
 vis = 0
 
-midiOutput = mido.open_output("IAC-Treiber Bus 1")
-#midiOutput = mido.open_output("LoopBe Internal MIDI 1")
+# midiOutput = mido.open_output("IAC-Treiber Bus 1")
+midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
-inport = mido.open_input('IAC-Treiber Bus 1')
-#inport = mido.open_input('LoopBe Internal MIDI 0')
+# inport = mido.open_input('IAC-Treiber Bus 1')
+inport = mido.open_input('LoopBe Internal MIDI 0')
 msg = inport.receive()
 if(msg):
     print("Message recieved")
