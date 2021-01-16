@@ -1,26 +1,28 @@
 html, body {
     padding: 0; margin: 0;
-    text-align: center;
-    background: #767b98;
+    background: #434e8f;
     color: #d8d6c2;
     font-family: monospace;
     width: 100%;
 }
 
 div {
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 
-#seite{
-    width: 1920px;
-    height: 1000px;
+.seite{
+    margin: 0 auto;
+    background: #767b98;
+    text-align: center;
+    width: 1910px;
+    height: 951px;
 }
 
 .button {
     background-color: #e0d336;
     border: none;
     color: #767b98;
-    font-size: 2.8em;
+    font-size: 2em;
     padding: 0.5em 1.5em;
     font-family: monospace;;
 }
@@ -63,30 +65,35 @@ button:active {
 
 #gainSlider{
     transform: rotate(-90deg);
-    width: 23em;
-    margin-top: 12em;
-    margin-right: 5em;
+    width: 18em;
+    margin-top: 10em;
+    margin-right: 3em;
     
+}
+
+#sliderContainer{
+    margin-left: -13.7%;
 }
 
 #gainContainer{
     float: right;
     /* background: seashell; */
     width: 10%;
-    height: 16em;
+    height: 1%;
     margin-top: 1em;
     margin-right: 2%;
     text-align: center;
-    font-size: 1.4em;
+    font-size: 1.3em;
 }
 
 #gainOutput{
-    margin-top: 6em;
+    margin-top: 5em;
     font-size: 1em;
 }
 
 
 #tempoContainer{
+    text-align: center;
     margin-top: 1em;
     margin-bottom: 1em;
 }
@@ -98,7 +105,7 @@ button:active {
     width: 70%;
     margin-top: 0.5em;
     margin-left: 15%;
-    padding-top: 1.6%;
+    padding-top: 1.4%;
 }
 #tomContainer {
     background: #4be6f1e0;
@@ -137,8 +144,8 @@ button:active {
 }
 
 .box {
-    width: 0.6em;
-    height: 0.6em;
+    width: 0.8em;
+    height: 0.8em;
     background: rgb(110, 74, 74);
     margin-right: 0.8em;
     float: right;
@@ -146,9 +153,9 @@ button:active {
 }
 
 .activeBox{
-    width: 0.54em;
-    height: 0.54em;
-    margin-right: 0.8em;
+    width: 0.76em;
+    height: 0.76em;
+    margin-right: 0.745em;
     float: right;
     background: rgb(248, 116, 28);
     box-shadow: 0 0 7px rgba(240, 219, 33, 0.897);
@@ -157,9 +164,9 @@ button:active {
 }
 
 .musicActive{
-    width: 0.54em;
-    height: 0.54em;
-    margin-right: 0.8em;
+    width: 0.76em;
+    height: 0.76em;
+    margin-right: 0.745em;
     float: right;
     background: rgb(231, 255, 10);
     box-shadow: 0 0 7px rgba(255, 244, 96, 0.897);
@@ -170,7 +177,7 @@ button:active {
 .ledRow{
     margin-right: 10%;
     background-color: #767b98;
-    margin-top: -1.2em;
+    margin-top: -1.3em;
 }
 
 #video{
@@ -181,18 +188,21 @@ button:active {
 
 #reverbContainer{
     text-align: center;
-    width: 10%;
+    font-size: 1.3em;
+    width: 15%;
     height: 6em;
     float: right;
-    margin-right: 37%;    
+    margin-right: 34.5%;    
 }
 
 #reverbOnOffButton{
+    
     margin-left: 0.4em;
-    font-size: 0.9em;
+    font-size: 0.8em;
     height: 1.2em;
     width: 6em;
-    padding: 0.1em;
+    padding-top: 0.2em;
+    padding-bottom: 1.3em;
     padding-left: 0.2em;
     padding-right: 0.2em;
 }
@@ -210,12 +220,12 @@ button:active {
     width: 14%;
     height: 10%;
     float: right;
-    margin-top: 3em;
+    margin-top: 0.5em;
     margin-right: 35%;
 }
 
 #analyseButton{
-    font-size: 1.5em;
+    font-size: 1.3em;
     width: 100%;
     height: 100%;
 }

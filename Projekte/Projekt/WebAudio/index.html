@@ -7,14 +7,16 @@
     <body>
         <!-- Dies ist der Code für die Aufgabe-->
 
-        <div id="seite">
+        <div class="seite">
 
         <button id="startButton" class="button">Play</button>
 
         <div id="drumMachine">
 
             <div id="gainContainer">Lautstärke
+                <div id="sliderContainer">
                 <input type="range" min="0" max="5" value="1" step="0.1" class="slider" id="gainSlider">
+                </div>
                 <div id="gainOutput">1</div>
                 <!-- <span id="gainOutput">70%</span> -->
             </div>
@@ -114,7 +116,8 @@
         
 
 
-        <div id="tempoContainer">Tempo
+        <div id="tempoContainer">
+            <span>Tempo</span>
             <input type="range" min="10" max="200" value="90" class="slider" id="tempoSlider">
             <span id="tempoOutput">90 bpm</span>
         </div>
