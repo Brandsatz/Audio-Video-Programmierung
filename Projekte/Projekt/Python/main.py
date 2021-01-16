@@ -26,7 +26,10 @@ midiOutput = mido.open_output("IAC-Treiber Bus 1")
 #midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
 inport = mido.open_input('IAC-Treiber Bus 1')
-
+msg = inport.receive()
+if(msg):
+    print("Message recieved")
+    print(msg)
 
 def sendNoteOn(farbe, position):
     message = mido.Message('note_on', note = farbe, velocity = position)
