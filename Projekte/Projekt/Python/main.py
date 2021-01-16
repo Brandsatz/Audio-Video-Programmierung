@@ -4,20 +4,6 @@ import rtmidi
 import mido
 import time
 
-def fotoMachen():
-    cap = cv2.VideoCapture(0)
-    time.sleep(0.5)
-    ret, img = cap.read()
-    cv2.imshow("Foto", img)
-    return(img)
-
-
-
-img = fotoMachen()
-cv2.imshow('Original', img)
-#grosse = img.shape
-#print(grosse)
-
 hue = 0
 satu = 0
 vis = 0
@@ -26,20 +12,44 @@ midiOutput = mido.open_output("IAC-Treiber Bus 1")
 #midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
 inport = mido.open_input('IAC-Treiber Bus 1')
+#inport = mido.open_input('LoopBe Internal MIDI 0')
 msg = inport.receive()
 if(msg):
     print("Message recieved")
     print(msg)
+    #gelb
+    #farben(22, 225, 120, 2, "Gelb")
+
+    #rot
+    #farben(0, 200, 87, 3, "Rot")
+
+    #blau
+    #arben(105, 223, 50, 1, "Blau")
+
+
+    #weiss
+    #farben(15, 95, 123, 5, "Weiss")
+
+    #grau
+    #farben(25, 80, 56, 4, "Grau")
 
 def sendNoteOn(farbe, position):
     message = mido.Message('note_on', note = farbe, velocity = position)
     midiOutput.send(message)
     print(message)
 
+#Foto machen
+def fotoMachen():
+    cap = cv2.VideoCapture(0)
+    time.sleep(0.5)
+    ret, img = cap.read()
+    cv2.imshow("Foto", img)
+    return(img)
+
 #schwarze Begrenzungssteine rausfiltern
 def rechteck():
 
-
+    img = fotoMachen()
     # Farbkonvertierung
     #hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
@@ -148,20 +158,10 @@ def position():
     return (flaeche)
 
 
-#Bild zuschneiden
-def zuschneiden():
-    if x2>x1:
-        crop = img[y1-250:y2+h2+20,x1-10:x2+w2+10]
-    else:
-        crop = img[y2-250:y1+h1+20,x2-10:x1+w1+10]
+positionArray = rechteck()
+if(positionArray!= None):
 
-    return crop
-
-
-quadrat = rechteck()
-
-if(quadrat!= None):
-
+    geklappt = True
     x1 = quadrat[0]
     y1 = quadrat[1]
     w1 = quadrat[2]
@@ -172,7 +172,7 @@ if(quadrat!= None):
     h2 = quadrat[7]
     höhe1 = h1*2.5
     höhe2 = h2*2.5
-    print(höhe1, höhe2)
+    #print(höhe1, höhe2)
     swSteine = quadrat[8]*0.7
     #print(swSteine)
 
@@ -187,17 +187,38 @@ if(quadrat!= None):
     fl7 = fl*0.875
     fl8 = fl
 
-    img2 = zuschneiden()
+else:
+    print("Etwas ist schief gelaufen")
+    cv2.imshow("Schief gelaufen", mask)
+    sendNoteOn(6,0)
 
-    #if (img2.size>0):
-        #cv2.imshow("Zugeschnitten", img2)
-        #farben(22, 225, 120, 2, "Gelb")
 
+#Bild zuschneiden
+def zuschneiden():
+    if(geklappt):
+        if x2>x1:
+            crop = img[y1-250:y2+h2+20,x1-10:x2+w2+10]
+        else:
+            crop = img[y2-250:y1+h1+20,x2-10:x1+w1+10]
 
-img2 = zuschneiden()
+        return crop
+    else:
+        print("Etwas ist schief gelaufen")
+        sendNoteOn(6,0)
+        return
 
 def farben(hue, satu, vis, farbe, titel):
-    #img2 = zuschneiden()
+
+    img2 = zuschneiden()
+
+    #checken ob Bild richtig zugeschnitten wurde
+    if (img2 == None):
+        print("Etwas ist schief gelaufen")
+        cv2.imshow("Schief gelaufen", mask)
+        sendNoteOn(6,0)
+        return
+
+    
     # Farbkonvertierung
     hsv = cv2.cvtColor(img2, cv2.COLOR_BGR2HSV)
 
@@ -217,6 +238,7 @@ def farben(hue, satu, vis, farbe, titel):
     #Steine rausfiltern und Position bestimmen
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
+    #Steine in der jeweiligen Farbe finden
     for index in range(len(contours)):
         area = cv2.contourArea(contours[index])
         if area > swSteine:
@@ -258,29 +280,6 @@ def farben(hue, satu, vis, farbe, titel):
             sendNoteOn(farbe, position)
             #print("jetzt wird das Bild erzeugt")
             cv2.imshow(titel, mask)
-
-if (img2.size>0):
-    cv2.imshow("Zugeschnitten", img2)
-    farben(22, 225, 130, 2, "Gelb")
-
-
-
-
-#gelb
-#farben(22, 225, 120, 2, "Gelb")
-
-#rot
-#farben(0, 200, 87, 3, "Rot")
-
-#blau
-#arben(105, 223, 50, 1, "Blau")
-
-
-#weiss
-#farben(15, 95, 123, 5, "Weiss")
-
-#grau
-#farben(25, 80, 56, 4, "Grau")
 
 cv2.waitKey()
    
