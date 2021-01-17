@@ -7,31 +7,15 @@ import time
 hue = 0
 satu = 0
 vis = 0
+start = False
+geklappt = False
 
 midiOutput = mido.open_output("IAC-Treiber Bus 1")
 #midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
 inport = mido.open_input('IAC-Treiber Bus 1')
 #inport = mido.open_input('LoopBe Internal MIDI 0')
-msg = inport.receive()
-if(msg):
-    print("Message recieved")
-    print(msg)
-    #gelb
-    #farben(22, 225, 120, 2, "Gelb")
 
-    #rot
-    #farben(0, 200, 87, 3, "Rot")
-
-    #blau
-    #arben(105, 223, 50, 1, "Blau")
-
-
-    #weiss
-    #farben(15, 95, 123, 5, "Weiss")
-
-    #grau
-    #farben(25, 80, 56, 4, "Grau")
 
 def sendNoteOn(farbe, position):
     message = mido.Message('note_on', note = farbe, velocity = position)
@@ -46,29 +30,30 @@ def fotoMachen():
     cv2.imshow("Foto", img)
     return(img)
 
+
 #schwarze Begrenzungssteine rausfiltern
 def rechteck():
 
     img = fotoMachen()
     # Farbkonvertierung
-    #hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Video in drei Farbkanaele splitten
-    #h, s, v= cv2.split(hsv)
-    b, g, r=cv2.split(img)
+    h, s, v= cv2.split(hsv)
+    #b, g, r=cv2.split(img)
 
     # masken berechnen
-    #satu = 30
-    #vis = 20
-    #s_mask = cv2.inRange(s, 0, satu+20)
-    #v_mask = cv2.inRange(v, vis-20, vis+20)
-    b_mask = cv2.inRange(b, 0, 25)
-    g_mask = cv2.inRange(g, 0, 25)
-    r_mask = cv2.inRange(r, 0, 25)
+    satu = 30
+    vis = 20
+    s_mask = cv2.inRange(s, 75, 175)
+    v_mask = cv2.inRange(v, 0, 39)
+    #b_mask = cv2.inRange(b, 0, 25)
+    #g_mask = cv2.inRange(g, 0, 25)
+    #r_mask = cv2.inRange(r, 0, 25)
 
     # Multiplizieren der Einzelmasken
-    mask = cv2.multiply(r_mask, g_mask)
-    mask = cv2.multiply(mask, b_mask)
+    mask = cv2.multiply(s_mask, v_mask)
+    #mask = cv2.multiply(mask, b_mask)
 
     #Dilation-Maske
     kernel = np.ones((2,2),np.uint8)
@@ -157,44 +142,9 @@ def position():
 
     return (flaeche)
 
-
-positionArray = rechteck()
-if(positionArray!= None):
-
-    geklappt = True
-    x1 = positionArray[0]
-    y1 = positionArray[1]
-    w1 = positionArray[2]
-    h1 = positionArray[3]
-    x2 = positionArray[4]
-    y2 = positionArray[5]
-    w2 = positionArray[6]
-    h2 = positionArray[7]
-    höhe1 = h1*2.5
-    höhe2 = h2*2.5
-    #print(höhe1, höhe2)
-    swSteine = positionArray[8]*0.7
-    #print(swSteine)
-
-    fl = position()
-    fl0 = 0
-    fl1 = fl*0.125
-    fl2 = fl*0.25
-    fl3 = fl*0.375
-    fl4 = fl*0.5
-    fl5 = fl*0.625
-    fl6 = fl*0.75
-    fl7 = fl*0.875
-    fl8 = fl
-
-else:
-    print("Etwas ist schief gelaufen")
-    cv2.imshow("Schief gelaufen", mask)
-    sendNoteOn(6,0)
-
-
 #Bild zuschneiden
 def zuschneiden():
+    img = fotoMachen()
     if(geklappt):
         if x2>x1:
             crop = img[y1-250:y2+h2+20,x1-10:x2+w2+10]
@@ -212,11 +162,14 @@ def farben(hue, satu, vis, farbe, titel):
     img2 = zuschneiden()
 
     #checken ob Bild richtig zugeschnitten wurde
-    if (img2 == None):
+    if (img2.size < 1):
         print("Etwas ist schief gelaufen")
-        cv2.imshow("Schief gelaufen", mask)
+        #cv2.imshow("Schief gelaufen", mask)
         sendNoteOn(6,0)
         return
+
+    else:
+        cv2.imshow("zugescnitten", img2)
 
     
     # Farbkonvertierung
@@ -280,6 +233,57 @@ def farben(hue, satu, vis, farbe, titel):
             sendNoteOn(farbe, position)
             #print("jetzt wird das Bild erzeugt")
             cv2.imshow(titel, mask)
+
+
+msg = inport.receive()
+if(msg):
+    print("Message recieved")
+    print(msg)
+    positionArray = rechteck()
+    if(positionArray!= None):
+
+        geklappt = True
+        x1 = positionArray[0]
+        y1 = positionArray[1]
+        w1 = positionArray[2]
+        h1 = positionArray[3]
+        x2 = positionArray[4]
+        y2 = positionArray[5]
+        w2 = positionArray[6]
+        h2 = positionArray[7]
+        höhe1 = h1*2.5
+        höhe2 = h2*2.5
+        #print(höhe1, höhe2)
+        swSteine = positionArray[8]*0.7
+        #print(swSteine)
+
+        fl = position()
+        fl0 = 0
+        fl1 = fl*0.125
+        fl2 = fl*0.25
+        fl3 = fl*0.375
+        fl4 = fl*0.5
+        fl5 = fl*0.625
+        fl6 = fl*0.75
+        fl7 = fl*0.875
+        fl8 = fl
+
+    #gelb
+    farben(25, 163, 235, 2, "Gelb")
+
+    #rot
+    #farben(0, 200, 87, 3, "Rot")
+
+    #blau
+    #arben(105, 223, 50, 1, "Blau")
+
+
+    #weiss
+    #farben(15, 95, 123, 5, "Weiss")
+
+    #grau
+    #farben(25, 80, 56, 4, "Grau")
+    
 
 cv2.waitKey()
    
