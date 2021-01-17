@@ -9,6 +9,7 @@ satu = 0
 vis = 0
 start = False
 geklappt = False
+schwarz = False
 
 # midiOutput = mido.open_output("IAC-Treiber Bus 1")
 midiOutput = mido.open_output("LoopBe Internal MIDI 1")
@@ -72,11 +73,18 @@ def rechteck():
         if area > maxArea:
             maxArea = area
             i = index
+            schwarz = True
             
     #Diese kennzeichnen
-    x1,y1,w1,h1 = cv2.boundingRect(contours[i])
-    cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
-    vergleichsH = h1*0.9
+    if (schwarz):
+        x1,y1,w1,h1 = cv2.boundingRect(contours[i])
+        cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
+        vergleichsH = h1*0.9
+    else:
+        print("Etwas ist schief gelaufen, es gibt keine schwarze Fläche")
+        cv2.imshow("Schief gelaufen", mask)
+        sendNoteOn(6,0)
+        return
     
 
     #Postition der schwarzen Steine im Array "contours" umranden
@@ -91,6 +99,7 @@ def rechteck():
             cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
             i1 = index
             if h != h1:
+                print("2. Fläche gefunden")
                 x2 =x
                 y2 =y
                 w2 =w
@@ -124,7 +133,7 @@ def rechteck():
     #print (maxArea, maxArea1)
 
     if (len(begrenzung)!= 2):
-        print("Etwas ist schief gelaufen")
+        print("Etwas ist schief gelaufen, es gibt nur schwarze Fläche oder mehr als 2")
         cv2.imshow("Schief gelaufen", mask)
         sendNoteOn(6,0)
         return
@@ -148,15 +157,20 @@ def position():
 def zuschneiden():
     if(geklappt):
         if x2>x1:
-            crop = img[y1-250:y2+h2+20,x1-10:x2+w2+10]
+            höhe = (y1- h1*2)
+            crop = img[höhe:y2+h2+5,x1-10:x2+w2+10]
         else:
-            crop = img[y2-250:y1+h1+20,x2-10:x1+w1+10]
+            höhe = (y2- h2*2)
+            crop = img[höhe:y1+h1+5,x2-10:x1+w1+10]
 
         return crop
     else:
-        print("Etwas ist schief gelaufen")
+        print("Etwas ist schief gelaufen, das Bild konnte nicht zugeschnitten werden")
+        #cv2.imshow("Schief gelaufen", mask)
         sendNoteOn(6,0)
         return
+
+    
 
 def farben(hue1, hue2, satu, vis, farbe, titel):
 
@@ -164,9 +178,6 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
 
     #checken ob Bild richtig zugeschnitten wurde
     if (img2.size < 1):
-        print("Etwas ist schief gelaufen")
-        #cv2.imshow("Schief gelaufen", mask)
-        sendNoteOn(6,0)
         return
 
     else:
@@ -273,23 +284,23 @@ while(msg):
         fl8 = fl
 
     #gelb
-    farben(15, 15, (57*2.55), (96*2.55), 2, "Gelb")
+    farben(15, 15, (60*2.55), (98*2.55), 2, "Gelb")
 
     #rot
     #farben(5, (*2.55), (*2.55), 3, "Rot")
-    farben(5, 175, (90*2.55), (90*2.55), 3, "Rot")
+    farben(0, 175, (85*2.55), (96*2.55), 3, "Rot")
 
     #blau
-    farben(125, 125, (74*2.55), (60*2.55), 1, "Blau")
+    farben(115, 115, (67*2.55), (57*2.55), 1, "Blau")
 
 
     #weiss
-    farben(5, 175, (22*2.55), (93*2.55), 5, "Weiss")
+    farben(15, 15, (24*2.55), (93*2.55), 5, "Weiss")
     #farben(175, 50, 225, 5, "Weiss")
 
     #grau
     #farben(5, (32*2.55), (60*2.55), 4, "Grau")
-    farben(5, 175, (32*2.55), (60*2.55), 4, "Grau")
+    farben(10, 10, (34*2.55), (62*2.55), 4, "Grau")
 
     msg = False
 
