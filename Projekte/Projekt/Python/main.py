@@ -50,17 +50,17 @@ def rechteck():
     vis = 20
     #s_mask = cv2.inRange(s, 150, 230)
     #v_mask = cv2.inRange(v, 0, 39)
-    b_mask = cv2.inRange(b, 0, 35)
+    b_mask = cv2.inRange(b, 0, 50)
     g_mask = cv2.inRange(g, 0, 35)
-    r_mask = cv2.inRange(r, 0, 50)
+    r_mask = cv2.inRange(r, 0, 35)
 
     # Multiplizieren der Einzelmasken
     mask = cv2.multiply(r_mask, g_mask)
     mask = cv2.multiply(mask, b_mask)
 
     #Dilation-Maske
-    kernel = np.ones((2,2),np.uint8)
-    mask = cv2.dilate(mask,kernel,iterations = 2)
+    #kernel = np.ones((2,2),np.uint8)
+    #mask = cv2.dilate(mask,kernel,iterations = 2)
 
     #Areas finden
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -74,18 +74,15 @@ def rechteck():
             maxArea = area
             i = index
             schwarz = True
+        else:
+            schwarz = False 
             
     #Diese kennzeichnen
-    if (schwarz):
-        x1,y1,w1,h1 = cv2.boundingRect(contours[i])
-        cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
-        vergleichsH = h1*0.9
-    else:
-        print("Etwas ist schief gelaufen, es gibt keine schwarze Fläche")
-        cv2.imshow("Schief gelaufen", mask)
-        sendNoteOn(6,0)
-        return
     
+    x1,y1,w1,h1 = cv2.boundingRect(contours[i])
+    cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
+    vergleichsH = h1*0.9
+   
 
     #Postition der schwarzen Steine im Array "contours" umranden
     maxArea1= 0
@@ -108,6 +105,8 @@ def rechteck():
 
     gefundeneSteine = len(begrenzung)
     cv2.imshow('schwarze Steine',mask)
+    if(gefundeneSteine > 2):
+        print ("Es gibt mehr als eine schwarze Fläche")
     
     #falls keine Hoehe vergleichbar ist, zweit groesste Flaeche suchen
     if gefundeneSteine<2:
@@ -168,7 +167,7 @@ def zuschneiden():
         print("Etwas ist schief gelaufen, das Bild konnte nicht zugeschnitten werden")
         #cv2.imshow("Schief gelaufen", mask)
         sendNoteOn(6,0)
-        return
+        return [1,2]
 
     
 
@@ -177,11 +176,11 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
     img2 = zuschneiden()
 
     #checken ob Bild richtig zugeschnitten wurde
-    if (img2.size < 1):
+    if (not geklappt):
         return
 
     else:
-        cv2.imshow("zugescnitten", img2)
+        cv2.imshow("zugeschnitten", img2)
 
     
     # Farbkonvertierung
@@ -284,7 +283,7 @@ while(msg):
         fl8 = fl
 
     #gelb
-    farben(15, 15, (60*2.55), (98*2.55), 2, "Gelb")
+    farben(14, 14, (66*2.55), (88*2.55), 2, "Gelb")
 
     #rot
     #farben(5, (*2.55), (*2.55), 3, "Rot")
@@ -300,7 +299,7 @@ while(msg):
 
     #grau
     #farben(5, (32*2.55), (60*2.55), 4, "Grau")
-    farben(10, 10, (34*2.55), (62*2.55), 4, "Grau")
+    farben(10, 10, (132*2.55), (142*2.55), 4, "Grau")
 
     msg = False
 
