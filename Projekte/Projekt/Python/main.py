@@ -9,7 +9,6 @@ satu = 0
 vis = 0
 start = False
 geklappt = False
-schwarz = False
 
 # midiOutput = mido.open_output("IAC-Treiber Bus 1")
 midiOutput = mido.open_output("LoopBe Internal MIDI 1")
@@ -25,8 +24,8 @@ def sendNoteOn(farbe, position):
 
 #Foto machen
 def fotoMachen():
+    time.sleep(2)
     cap = cv2.VideoCapture(0)
-    time.sleep(0.5)
     ret, img = cap.read()
     cv2.imshow("Foto", img)
     return(img)
@@ -34,29 +33,30 @@ def fotoMachen():
 
 #schwarze Begrenzungssteine rausfiltern
 def rechteck():
+    schwarz = False
 
     begrenzung = []
 
     #img = fotoMachen()
     # Farbkonvertierung
-    #hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Video in drei Farbkanaele splitten
-    #h, s, v= cv2.split(hsv)
-    b, g, r=cv2.split(img)
+    h, s, v= cv2.split(hsv)
+    # b, g, r=cv2.split(img)
 
     # masken berechnen
     satu = 30
     vis = 20
-    #s_mask = cv2.inRange(s, 150, 230)
-    #v_mask = cv2.inRange(v, 0, 39)
-    b_mask = cv2.inRange(b, 0, 35)
-    g_mask = cv2.inRange(g, 0, 35)
-    r_mask = cv2.inRange(r, 0, 50)
+    s_mask = cv2.inRange(s, (44*2.55), (77*2.55))
+    v_mask = cv2.inRange(v, 0, (13.7*2.55))
+    # b_mask = cv2.inRange(b, 1, 10)
+    # g_mask = cv2.inRange(g, 2, 10)
+    # r_mask = cv2.inRange(r, 0, 15)
 
     # Multiplizieren der Einzelmasken
-    mask = cv2.multiply(r_mask, g_mask)
-    mask = cv2.multiply(mask, b_mask)
+    mask = cv2.multiply(s_mask, v_mask)
+    # mask = cv2.multiply(mask, b_mask)
 
     #Dilation-Maske
     kernel = np.ones((2,2),np.uint8)
@@ -74,6 +74,8 @@ def rechteck():
             maxArea = area
             i = index
             schwarz = True
+        else:
+            schwarz = False
             
     #Diese kennzeichnen
     if (schwarz):
@@ -283,19 +285,22 @@ while(msg):
         fl7 = fl*0.875
         fl8 = fl
 
+    #farben(Farbwert1, Farbwert2, Hue, Sättigung)
     #gelb
-    farben(15, 15, (60*2.55), (98*2.55), 2, "Gelb")
+    # farben(15, 15, (60*2.55), (98*2.55), 2, "Gelb")
+    farben(53, 51, (77*2.55), (73*2.55), 2, "Gelb")
 
     #rot
     #farben(5, (*2.55), (*2.55), 3, "Rot")
-    farben(0, 175, (85*2.55), (96*2.55), 3, "Rot")
+    # farben(0, 175, (85*2.55), (96*2.55), 3, "Rot")
+    farben(2, 7, (85*2.55), (63*2.55), 3, "Rot")
 
     #blau
-    farben(115, 115, (67*2.55), (57*2.55), 1, "Blau")
+    farben(215, 218, (84*2.55), (76*2.55), 1, "Blau")
 
 
     #weiss
-    farben(15, 15, (24*2.55), (93*2.55), 5, "Weiss")
+    farben(213, 228, (16*2.55), (83*2.55), 5, "Weiss")
     #farben(175, 50, 225, 5, "Weiss")
 
     #grau
