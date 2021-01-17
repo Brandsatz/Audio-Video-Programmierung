@@ -13,8 +13,8 @@ geklappt = False
 # midiOutput = mido.open_output("IAC-Treiber Bus 1")
 midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
-inport = mido.open_input('IAC-Treiber Bus 1')
-#inport = mido.open_input('LoopBe Internal MIDI 0')
+# inport = mido.open_input('IAC-Treiber Bus 1')
+inport = mido.open_input('LoopBe Internal MIDI 0')
 
 
 def sendNoteOn(farbe, position):
