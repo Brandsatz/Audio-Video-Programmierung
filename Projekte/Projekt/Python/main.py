@@ -179,7 +179,7 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
     img2 = zuschneiden()
 
     #checken ob Bild richtig zugeschnitten wurde
-    if (img2.size < 1):
+    if (notgeklappt):
         return
 
     else:
