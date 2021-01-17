@@ -10,8 +10,8 @@ vis = 0
 start = False
 geklappt = False
 
-# midiOutput = mido.open_output("IAC-Treiber Bus 1")
-midiOutput = mido.open_output("LoopBe Internal MIDI 1")
+midiOutput = mido.open_output("IAC-Treiber Bus 1")
+#midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
 # inport = mido.open_input('IAC-Treiber Bus 1')
 inport = mido.open_input('LoopBe Internal MIDI 0')
@@ -34,26 +34,28 @@ def fotoMachen():
 #schwarze Begrenzungssteine rausfiltern
 def rechteck():
 
-    img = fotoMachen()
+    begrenzung = []
+
+    #img = fotoMachen()
     # Farbkonvertierung
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    #hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Video in drei Farbkanaele splitten
-    h, s, v= cv2.split(hsv)
-    #b, g, r=cv2.split(img)
+    #h, s, v= cv2.split(hsv)
+    b, g, r=cv2.split(img)
 
     # masken berechnen
     satu = 30
     vis = 20
-    s_mask = cv2.inRange(s, 75, 175)
-    v_mask = cv2.inRange(v, 0, 39)
-    #b_mask = cv2.inRange(b, 0, 25)
-    #g_mask = cv2.inRange(g, 0, 25)
-    #r_mask = cv2.inRange(r, 0, 25)
+    #s_mask = cv2.inRange(s, 150, 230)
+    #v_mask = cv2.inRange(v, 0, 39)
+    b_mask = cv2.inRange(b, 0, 35)
+    g_mask = cv2.inRange(g, 0, 35)
+    r_mask = cv2.inRange(r, 0, 50)
 
     # Multiplizieren der Einzelmasken
-    mask = cv2.multiply(s_mask, v_mask)
-    #mask = cv2.multiply(mask, b_mask)
+    mask = cv2.multiply(r_mask, g_mask)
+    mask = cv2.multiply(mask, b_mask)
 
     #Dilation-Maske
     kernel = np.ones((2,2),np.uint8)
@@ -79,7 +81,7 @@ def rechteck():
 
     #Postition der schwarzen Steine im Array "contours" umranden
     maxArea1= 0
-    begrenzung = []
+    
     for index in range(len(contours)):
         area = cv2.contourArea(contours[index])
         x,y,w,h = cv2.boundingRect(contours[index])
@@ -144,7 +146,6 @@ def position():
 
 #Bild zuschneiden
 def zuschneiden():
-    img = fotoMachen()
     if(geklappt):
         if x2>x1:
             crop = img[y1-250:y2+h2+20,x1-10:x2+w2+10]
@@ -157,7 +158,7 @@ def zuschneiden():
         sendNoteOn(6,0)
         return
 
-def farben(hue, satu, vis, farbe, titel):
+def farben(hue1, hue2, satu, vis, farbe, titel):
 
     img2 = zuschneiden()
 
@@ -179,7 +180,9 @@ def farben(hue, satu, vis, farbe, titel):
     h, s, v= cv2.split(hsv)
 
     # masken berechnen
-    h_mask = cv2.inRange(h, hue-25, hue+25)
+    h_mask1 = cv2.inRange(h, hue1-25, hue2+25)
+    h_mask2 = cv2.inRange(h, hue2-25, hue2+25)
+    h_mask = cv2.add(h_mask1, h_mask2)
     s_mask = cv2.inRange(s, satu-25, satu+25)
     v_mask = cv2.inRange(v, vis-25, vis+25)
 
@@ -236,9 +239,10 @@ def farben(hue, satu, vis, farbe, titel):
 
 
 msg = inport.receive()
-if(msg):
+while(msg):
     print("Message recieved")
     print(msg)
+    img = fotoMachen()
     positionArray = rechteck()
     if(positionArray!= None):
 
@@ -269,20 +273,27 @@ if(msg):
         fl8 = fl
 
     #gelb
-    farben(25, 163, 235, 2, "Gelb")
+    farben(15, 15, (57*2.55), (96*2.55), 2, "Gelb")
 
     #rot
-    #farben(0, 200, 87, 3, "Rot")
+    #farben(5, (*2.55), (*2.55), 3, "Rot")
+    farben(5, 175, (90*2.55), (90*2.55), 3, "Rot")
 
     #blau
-    #arben(105, 223, 50, 1, "Blau")
+    farben(125, 125, (74*2.55), (60*2.55), 1, "Blau")
 
 
     #weiss
-    #farben(15, 95, 123, 5, "Weiss")
+    farben(5, 175, (22*2.55), (93*2.55), 5, "Weiss")
+    #farben(175, 50, 225, 5, "Weiss")
 
     #grau
-    #farben(25, 80, 56, 4, "Grau")
+    #farben(5, (32*2.55), (60*2.55), 4, "Grau")
+    farben(5, 175, (32*2.55), (60*2.55), 4, "Grau")
+
+    msg = False
+
+
     
 
 cv2.waitKey()
