@@ -14,12 +14,12 @@ msg = inport.receive()
 if(msg):
     cap = cv2.VideoCapture(0)
     while cap.isOpened():
-    ret, frame = cap.read()
-    cv2.imshow("Origi", frame)
-    #time.sleep(0.5)
+        ret, frame = cap.read()
+        cv2.imshow("Origi", frame)
+        #time.sleep(0.5)
 
-    if cv2.waitKey(25) != -1:
-        break
+        if cv2.waitKey(25) != -1:
+            break
 
     print("Message recieved")
     print(msg)
