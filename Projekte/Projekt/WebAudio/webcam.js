@@ -63,14 +63,14 @@
         video.srcObject.getTracks().forEach( (track) => {track.stop();});
         document.querySelector("#analyseButton").innerHTML = "Einrichten";
         machineLeeren();
-        midiZuweisung(1, 1);
-        midiZuweisung(1, 3);
-        midiZuweisung(1, 5);
-        midiZuweisung(1, 7);
-        midiZuweisung(2, 1);
-        midiZuweisung(3, 4);
-        midiZuweisung(4, 5);
-        midiZuweisung(5, 8);
+        // midiZuweisung(1, 1);
+        // midiZuweisung(1, 3);
+        // midiZuweisung(1, 5);
+        // midiZuweisung(1, 7);
+        // midiZuweisung(2, 1);
+        // midiZuweisung(3, 4);
+        // midiZuweisung(4, 5);
+        // midiZuweisung(5, 8);
         midiSend();
       
 
