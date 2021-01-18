@@ -13,6 +13,7 @@ let clapActive = [0,0,0,0,0,0,0,0];
 let crashActive = [0,0,0,0,0,0,0,0];
 
 let classChangeIndex = 0;
+let fehler = false;
 
 gainNode.connect(context.destination);
 
@@ -60,7 +61,11 @@ function midiZuweisung(sound, positionID){
             document.getElementById('crash'+positionID).setAttribute('class', 'activeBox');
             break;
         case 6:
-            alert("Fehler bei der Bildanalyse, bitte nochmal versuchen!")
+            if (!fehler){
+                alert("Fehler bei der Bildanalyse, bitte nochmal versuchen!")
+                fehler = true;
+            }
+            
 
     }
 };
