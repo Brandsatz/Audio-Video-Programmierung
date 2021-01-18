@@ -5,17 +5,36 @@ import numpy as np
 import time
 
 
+midiOutput = mido.open_output("IAC-Treiber Bus 1")
+#midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
 name = mido.get_input_names()
 print(name)
 inport = mido.open_input('IAC-Treiber Bus 1')
-#msg = inport.receive()
+#inport = mido.open_input("LoopBe Internal MIDI 0")
 
-#if(msg):
+msg = inport.receive()
+
+
+def sendNoteOn(farbe, position):
+    message = mido.Message('note_on', note = farbe, velocity = position)
+    midiOutput.send(message)
+    print(message)
+
+if(msg):
+    sendNoteOn(5,1)
+    sendNoteOn(1,2)
+    sendNoteOn(2,3)
+    sendNoteOn(3,4)
+    sendNoteOn(4,5)
+    sendNoteOn(4,6)
+    sendNoteOn(3,7)
+    sendNoteOn(2,8)
+    
 def do_nothing():
     return
 
-
+'''
 cap = cv2.VideoCapture(0)
 cv2.namedWindow("Video")
 cv2.createTrackbar("Blau", "Video", 30, 55, do_nothing)
@@ -45,7 +64,7 @@ while cap.isOpened():
     maxArea = 0
     
     #groesste schwarze Flaeche
-    '''
+    
     for index in range(len(contours)):
         area = cv2.contourArea(contours[index])
         if area > maxArea:
@@ -62,13 +81,13 @@ while cap.isOpened():
     x,y,w,h = cv2.boundingRect(contours[i])
     cv2.rectangle(frame,(x,y),(x+w,y+h),(10,10,10),2)
     cv2.putText(frame, "X: {0} Y: {1} ".format(cx,cy), (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 200, 0), 1)
-    '''
+    
 
     cv2.imshow('Video', mask)
 
     if cv2.waitKey(25) != -1:
         break
-
+'''
 print("Message recieved")
 print(msg)
 cap.release()
