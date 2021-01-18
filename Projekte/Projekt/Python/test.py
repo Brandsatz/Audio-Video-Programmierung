@@ -10,8 +10,9 @@ midiOutput = mido.open_output("IAC-Treiber Bus 1")
 
 name = mido.get_input_names()
 print(name)
-inport = mido.open_input('IAC-Treiber Bus 1')
-#inport = mido.open_input("LoopBe Internal MIDI 0")
+
+# inport = mido.open_input('IAC-Treiber Bus 1')
+inport = mido.open_input('LoopBe Internal MIDI 0')
 
 msg = inport.receive()
 

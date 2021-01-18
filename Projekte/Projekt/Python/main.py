@@ -9,13 +9,12 @@ satu = 0
 vis = 0
 start = False
 geklappt = False
-schwarz = False
 
-midiOutput = mido.open_output("IAC-Treiber Bus 1")
-#midiOutput = mido.open_output("LoopBe Internal MIDI 1")
+# midiOutput = mido.open_output("IAC-Treiber Bus 1")
+midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
-inport = mido.open_input('IAC-Treiber Bus 1')
-#inport = mido.open_input('LoopBe Internal MIDI 0')
+# inport = mido.open_input('IAC-Treiber Bus 1')
+inport = mido.open_input('LoopBe Internal MIDI 0')
 
 
 def sendNoteOn(farbe, position):
@@ -25,8 +24,8 @@ def sendNoteOn(farbe, position):
 
 #Foto machen
 def fotoMachen():
+    time.sleep(2)
     cap = cv2.VideoCapture(0)
-    time.sleep(0.5)
     ret, img = cap.read()
     cv2.imshow("Foto", img)
     return(img)
@@ -34,33 +33,34 @@ def fotoMachen():
 
 #schwarze Begrenzungssteine rausfiltern
 def rechteck():
+    schwarz = False
 
     begrenzung = []
 
     #img = fotoMachen()
     # Farbkonvertierung
-    #hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Video in drei Farbkanaele splitten
-    #h, s, v= cv2.split(hsv)
-    b, g, r=cv2.split(img)
+    h, s, v= cv2.split(hsv)
+    # b, g, r=cv2.split(img)
 
     # masken berechnen
     satu = 30
     vis = 20
-    #s_mask = cv2.inRange(s, 150, 230)
-    #v_mask = cv2.inRange(v, 0, 39)
-    b_mask = cv2.inRange(b, 0, 45)
-    g_mask = cv2.inRange(g, 0, 35)
-    r_mask = cv2.inRange(r, 0, 45)
+    s_mask = cv2.inRange(s, (44*2.55), (77*2.55))
+    v_mask = cv2.inRange(v, 0, (13.7*2.55))
+    # b_mask = cv2.inRange(b, 1, 10)
+    # g_mask = cv2.inRange(g, 2, 10)
+    # r_mask = cv2.inRange(r, 0, 15)
 
     # Multiplizieren der Einzelmasken
-    mask = cv2.multiply(r_mask, g_mask)
-    mask = cv2.multiply(mask, b_mask)
+    mask = cv2.multiply(s_mask, v_mask)
+    # mask = cv2.multiply(mask, b_mask)
 
     #Dilation-Maske
-    #kernel = np.ones((2,2),np.uint8)
-    #mask = cv2.dilate(mask,kernel,iterations = 2)
+    kernel = np.ones((2,2),np.uint8)
+    mask = cv2.dilate(mask,kernel,iterations = 2)
 
     #Areas finden
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -78,11 +78,16 @@ def rechteck():
             schwarz = False
             
     #Diese kennzeichnen
+    if (schwarz):
+        x1,y1,w1,h1 = cv2.boundingRect(contours[i])
+        cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
+        vergleichsH = h1*0.9
+    else:
+        print("Etwas ist schief gelaufen, es gibt keine schwarze Fläche")
+        cv2.imshow("Schief gelaufen", mask)
+        sendNoteOn(6,0)
+        return
     
-    x1,y1,w1,h1 = cv2.boundingRect(contours[i])
-    cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
-    vergleichsH = h1*0.9
-   
 
     #Postition der schwarzen Steine im Array "contours" umranden
     maxArea1= 0
@@ -93,7 +98,7 @@ def rechteck():
         if h > vergleichsH:
             print("Es gibt eine Flaeche, die ins Raster faellt")
             begrenzung.append(index)
-            cv2.rectangle(mask, (x-10,y-10), (x+w,y+h), (100,255,100), 3)
+            cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
             i1 = index
             if h != h1:
                 print("2. Fläche gefunden")
@@ -105,8 +110,6 @@ def rechteck():
 
     gefundeneSteine = len(begrenzung)
     cv2.imshow('schwarze Steine',mask)
-    if(gefundeneSteine > 2):
-        print ("Es gibt mehr als eine schwarze Fläche")
     
     #falls keine Hoehe vergleichbar ist, zweit groesste Flaeche suchen
     if gefundeneSteine<2:
@@ -149,7 +152,7 @@ def position():
         flaeche = x2-(x1+w1)
     else:
         flaeche = x1-(x2+w2)
-    print (flaeche)
+
     return (flaeche)
 
 #Bild zuschneiden
@@ -167,7 +170,7 @@ def zuschneiden():
         print("Etwas ist schief gelaufen, das Bild konnte nicht zugeschnitten werden")
         #cv2.imshow("Schief gelaufen", mask)
         sendNoteOn(6,0)
-        return [1,2]
+        return
 
     
 
@@ -180,7 +183,7 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
         return
 
     else:
-        cv2.imshow("zugeschnitten", img2)
+        cv2.imshow("zugescnitten", img2)
 
     
     # Farbkonvertierung
@@ -190,11 +193,11 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
     h, s, v= cv2.split(hsv)
 
     # masken berechnen
-    h_mask1 = cv2.inRange(h, hue1-25, hue2+30)
-    h_mask2 = cv2.inRange(h, hue2-30, hue2+25)
+    h_mask1 = cv2.inRange(h, hue1-25, hue2+25)
+    h_mask2 = cv2.inRange(h, hue2-25, hue2+25)
     h_mask = cv2.add(h_mask1, h_mask2)
-    s_mask = cv2.inRange(s, satu-30, satu+30)
-    v_mask = cv2.inRange(v, vis-30, vis+30)
+    s_mask = cv2.inRange(s, satu-25, satu+25)
+    v_mask = cv2.inRange(v, vis-25, vis+25)
 
 
     # Multiplikation der Einzelmasken
@@ -209,7 +212,6 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
         area = cv2.contourArea(contours[index])
         x,y,w,h = cv2.boundingRect(contours[index])
         if (w > (w2*0.6)) and (h>(h2*0.6) or area>swSteine):
-
             x,y,w,h = cv2.boundingRect(contours[index])
             cv2.rectangle(mask,(x,y),(x+w,y+h),(255,255,225), 3)
             if w > (w2*1.3):
@@ -306,8 +308,6 @@ while (True):
 
     if cv2.waitKey(25) != -1:
         break
-
-
 
     
 
