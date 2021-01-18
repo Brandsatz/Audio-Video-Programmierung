@@ -206,8 +206,9 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
 
     #Steine in der jeweiligen Farbe finden
     for index in range(len(contours)):
-        area = cv2.contourArea(contours[index])
-        if area > swSteine:
+        #area = cv2.contourArea(contours[index])
+        x,y,w,h = cv2.boundingRect(contours[index])
+        if (w > (w2*0.7)) and (h>(h2*0.7)):
 
             x,y,w,h = cv2.boundingRect(contours[index])
             cv2.rectangle(mask,(x,y),(x+w,y+h),(255,255,225), 3)
