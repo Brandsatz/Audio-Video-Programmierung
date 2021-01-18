@@ -210,8 +210,8 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
     #Steine in der jeweiligen Farbe finden
     for index in range(len(contours)):
         area = cv2.contourArea(contours[index])
-        if area > swSteine:
-
+        x,y,w,h = cv2.boundingRect(contours[index])
+        if (w > (w2*0.6)) and (h>(h2*0.6) or area>swSteine):
             x,y,w,h = cv2.boundingRect(contours[index])
             cv2.rectangle(mask,(x,y),(x+w,y+h),(255,255,225), 3)
             if w > (w2*1.3):
@@ -250,65 +250,68 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
             #print("jetzt wird das Bild erzeugt")
             cv2.imshow(titel, mask)
 
+while (True):
+    msg = inport.receive()
+    #print(msg.note)
+    if(msg.note == (7)):
+        print("Message recieved")
+        print(msg)
+        img = fotoMachen()
+        positionArray = rechteck()
+        if(positionArray!= None):
 
-msg = inport.receive()
-while(msg):
-    print("Message recieved")
-    print(msg)
-    img = fotoMachen()
-    positionArray = rechteck()
-    if(positionArray!= None):
+            geklappt = True
+            x1 = positionArray[0]
+            y1 = positionArray[1]
+            w1 = positionArray[2]
+            h1 = positionArray[3]
+            x2 = positionArray[4]
+            y2 = positionArray[5]
+            w2 = positionArray[6]
+            h2 = positionArray[7]
+            höhe1 = h1*2.5
+            höhe2 = h2*2.5
+            #print(höhe1, höhe2)
+            swSteine = positionArray[8]*0.7
+            #print(swSteine)
 
-        geklappt = True
-        x1 = positionArray[0]
-        y1 = positionArray[1]
-        w1 = positionArray[2]
-        h1 = positionArray[3]
-        x2 = positionArray[4]
-        y2 = positionArray[5]
-        w2 = positionArray[6]
-        h2 = positionArray[7]
-        höhe1 = h1*2.5
-        höhe2 = h2*2.5
-        #print(höhe1, höhe2)
-        swSteine = positionArray[8]*0.7
-        #print(swSteine)
+            fl = position()
+            fl0 = 0
+            fl1 = fl*0.125
+            fl2 = fl*0.25
+            fl3 = fl*0.375
+            fl4 = fl*0.5
+            fl5 = fl*0.625
+            fl6 = fl*0.75
+            fl7 = fl*0.875
+            fl8 = fl
 
-        fl = position()
-        fl0 = 0
-        fl1 = fl*0.125
-        fl2 = fl*0.25
-        fl3 = fl*0.375
-        fl4 = fl*0.5
-        fl5 = fl*0.625
-        fl6 = fl*0.75
-        fl7 = fl*0.875
-        fl8 = fl
+        #gelb
+        # farben(14, 14, (66*2.55), (88*2.55), 2, "Gelb")
+        farben(29, 30, (82*2.55), (100*2.55), 2, "Gelb")
 
-    #farben(Farbwert1, Farbwert2, Hue, Sättigung)
-    #gelb
-    # farben(15, 15, (60*2.55), (98*2.55), 2, "Gelb")
-    farben(29, 30, (82*2.55), (100*2.55), 2, "Gelb")
+        #rot
+        #farben(5, (*2.55), (*2.55), 3, "Rot")
+        # farben(175, 175, (95*2.55), (82*2.55), 3, "Rot")
+        farben(180, 0, (85*2.55), (100*2.55), 3, "Rot")
 
-    #rot
-    #farben(5, (*2.55), (*2.55), 3, "Rot")
-    # farben(0, 175, (85*2.55), (96*2.55), 3, "Rot")
-    farben(180, 0, (85*2.55), (100*2.55), 3, "Rot")
-
-    #blau
-    farben(115, 117, (85*2.55), (99*2.55), 1, "Blau")
+        #blau
+        # farben(120, 120, (80*2.55), (50*2.55), 1, "Blau")
+        farben(115, 117, (85*2.55), (99*2.55), 1, "Blau")
 
 
-    #weiss
-    farben(30, 30, (0.8*2.55), (100*2.55), 5, "Weiss")
-    #farben(175, 50, 225, 5, "Weiss")
+        #weiss
+        # farben(5, 175, (24*2.55), (88*2.55), 5, "Weiss")
+        farben(30, 30, (0.8*2.55), (100*2.55), 5, "Weiss")
+        
 
-    #grau
-    #farben(5, (32*2.55), (60*2.55), 4, "Grau")
-    farben(10, 10, (34*2.55), (62*2.55), 4, "Grau")
+        #grau
+        #farben(5, (32*2.55), (60*2.55), 4, "Grau")
+        farben(0, 175, (25*2.55), (52*2.55), 4, "Grau")
+        msg = False
 
-    msg = False
-
+    if cv2.waitKey(25) != -1:
+        break
 
     
 
