@@ -5,8 +5,8 @@ import numpy as np
 import time
 
 
-midiOutput = mido.open_output("IAC-Treiber Bus 1")
-#midiOutput = mido.open_output("LoopBe Internal MIDI 1")
+# midiOutput = mido.open_output("IAC-Treiber Bus 1")
+midiOutput = mido.open_output("LoopBe Internal MIDI 1")
 
 name = mido.get_input_names()
 print(name)
@@ -35,7 +35,7 @@ if(msg):
 def do_nothing():
     return
 
-'''
+
 cap = cv2.VideoCapture(0)
 cv2.namedWindow("Video")
 cv2.createTrackbar("Blau", "Video", 30, 55, do_nothing)
@@ -54,8 +54,8 @@ while cap.isOpened():
     g_Threshold = cv2.getTrackbarPos("Gruen", "Video")
     r_Threshold = cv2.getTrackbarPos("Rot", "Video")
 
-    b_Mask = cv2.inRange(b, blauWert-b_Threshold), blauWert+b_Threshold)
-    g_Mask = cv2.inRange(g, gruenWert-g_Threshold0, gruenWert+g_Threshold)
+    b_Mask = cv2.inRange(b, blauWert-b_Threshold, blauWert+b_Threshold)
+    g_Mask = cv2.inRange(g, gruenWert-g_Threshold, gruenWert+g_Threshold)
     r_Mask = cv2.inRange(r, rotWert-r_Threshold, rotWert+r_Threshold)
 
     mask = r_Mask * g_Mask * b_Mask
@@ -88,7 +88,7 @@ while cap.isOpened():
 
     if cv2.waitKey(25) != -1:
         break
-'''
+
 print("Message recieved")
 print(msg)
 cap.release()
