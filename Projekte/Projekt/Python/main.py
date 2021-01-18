@@ -50,9 +50,9 @@ def rechteck():
     vis = 20
     #s_mask = cv2.inRange(s, 150, 230)
     #v_mask = cv2.inRange(v, 0, 39)
-    b_mask = cv2.inRange(b, 0, 50)
+    b_mask = cv2.inRange(b, 0, 45)
     g_mask = cv2.inRange(g, 0, 35)
-    r_mask = cv2.inRange(r, 0, 35)
+    r_mask = cv2.inRange(r, 0, 45)
 
     # Multiplizieren der Einzelmasken
     mask = cv2.multiply(r_mask, g_mask)
@@ -75,7 +75,7 @@ def rechteck():
             i = index
             schwarz = True
         else:
-            schwarz = False 
+            schwarz = False
             
     #Diese kennzeichnen
     
@@ -93,7 +93,7 @@ def rechteck():
         if h > vergleichsH:
             print("Es gibt eine Flaeche, die ins Raster faellt")
             begrenzung.append(index)
-            cv2.rectangle(mask, (x1-10,y1-10), (x1+w1,y1+h1), (100,255,100), 3)
+            cv2.rectangle(mask, (x-10,y-10), (x+w,y+h), (100,255,100), 3)
             i1 = index
             if h != h1:
                 print("2. Fläche gefunden")
@@ -149,7 +149,7 @@ def position():
         flaeche = x2-(x1+w1)
     else:
         flaeche = x1-(x2+w2)
-
+    print (flaeche)
     return (flaeche)
 
 #Bild zuschneiden
@@ -190,11 +190,11 @@ def farben(hue1, hue2, satu, vis, farbe, titel):
     h, s, v= cv2.split(hsv)
 
     # masken berechnen
-    h_mask1 = cv2.inRange(h, hue1-25, hue2+25)
-    h_mask2 = cv2.inRange(h, hue2-25, hue2+25)
+    h_mask1 = cv2.inRange(h, hue1-25, hue2+30)
+    h_mask2 = cv2.inRange(h, hue2-30, hue2+25)
     h_mask = cv2.add(h_mask1, h_mask2)
-    s_mask = cv2.inRange(s, satu-25, satu+25)
-    v_mask = cv2.inRange(v, vis-25, vis+25)
+    s_mask = cv2.inRange(s, satu-30, satu+30)
+    v_mask = cv2.inRange(v, vis-30, vis+30)
 
 
     # Multiplikation der Einzelmasken
@@ -287,19 +287,19 @@ while(msg):
 
     #rot
     #farben(5, (*2.55), (*2.55), 3, "Rot")
-    farben(0, 175, (85*2.55), (96*2.55), 3, "Rot")
+    farben(175, 175, (95*2.55), (82*2.55), 3, "Rot")
 
     #blau
-    farben(115, 115, (67*2.55), (57*2.55), 1, "Blau")
+    farben(120, 120, (80*2.55), (50*2.55), 1, "Blau")
 
 
     #weiss
-    farben(15, 15, (24*2.55), (93*2.55), 5, "Weiss")
+    farben(5, 175, (24*2.55), (88*2.55), 5, "Weiss")
     #farben(175, 50, 225, 5, "Weiss")
 
     #grau
     #farben(5, (32*2.55), (60*2.55), 4, "Grau")
-    farben(10, 10, (132*2.55), (142*2.55), 4, "Grau")
+    farben(167, 167, (31*2.55), (52*2.55), 4, "Grau")
 
     msg = False
 

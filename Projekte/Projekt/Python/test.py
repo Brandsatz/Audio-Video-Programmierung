@@ -9,19 +9,67 @@ import time
 name = mido.get_input_names()
 print(name)
 inport = mido.open_input('IAC-Treiber Bus 1')
-msg = inport.receive()
+#msg = inport.receive()
 
-if(msg):
-    cap = cv2.VideoCapture(0)
-    while cap.isOpened():
-        ret, frame = cap.read()
-        cv2.imshow("Origi", frame)
-        #time.sleep(0.5)
+#if(msg):
+def do_nothing():
+    return
 
-        if cv2.waitKey(25) != -1:
-            break
 
-    print("Message recieved")
-    print(msg)
+cap = cv2.VideoCapture(0)
+cv2.namedWindow("Video")
+cv2.createTrackbar("Blau", "Video", 30, 55, do_nothing)
+cv2.createTrackbar("Gruen", "Video", 30, 55, do_nothing)
+cv2.createTrackbar("Rot", "Video", 30, 55, do_nothing)
+
+
+blauWert = 0
+gruenWert = 0
+rotWert = 0
+while cap.isOpened():
+    ret, frame = cap.read()
+    b, g, r = cv2.split(frame)
+
+    b_Threshold = cv2.getTrackbarPos("Blau", "Video")
+    g_Threshold = cv2.getTrackbarPos("Gruen", "Video")
+    r_Threshold = cv2.getTrackbarPos("Rot", "Video")
+
+    b_Mask = cv2.inRange(b, blauWert-b_Threshold), blauWert+b_Threshold)
+    g_Mask = cv2.inRange(g, gruenWert-g_Threshold0, gruenWert+g_Threshold)
+    r_Mask = cv2.inRange(r, rotWert-r_Threshold, rotWert+r_Threshold)
+
+    mask = r_Mask * g_Mask * b_Mask
+
+    contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    maxArea = 0
+    
+    #groesste schwarze Flaeche
+    '''
+    for index in range(len(contours)):
+        area = cv2.contourArea(contours[index])
+        if area > maxArea:
+            maxArea = area
+            i = index
+
+
+       
+    M = cv2.moments(contours[i])
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+
+
+    x,y,w,h = cv2.boundingRect(contours[i])
+    cv2.rectangle(frame,(x,y),(x+w,y+h),(10,10,10),2)
+    cv2.putText(frame, "X: {0} Y: {1} ".format(cx,cy), (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 200, 0), 1)
+    '''
+
+    cv2.imshow('Video', mask)
+
+    if cv2.waitKey(25) != -1:
+        break
+
+print("Message recieved")
+print(msg)
 cap.release()
 cv2.destroyAllWindows()
