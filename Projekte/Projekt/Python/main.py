@@ -50,9 +50,9 @@ def rechteck():
     vis = 20
     # s_mask = cv2.inRange(s, (44*2.55), (77*2.55))
     # v_mask = cv2.inRange(v, 0, (13.7*2.55))
-    b_mask = cv2.inRange(b, 0, 35)
-    g_mask = cv2.inRange(g, 0, 40)
-    r_mask = cv2.inRange(r, 0, 36)
+    b_mask = cv2.inRange(b, 0, 53)
+    g_mask = cv2.inRange(g, 0, 30)
+    r_mask = cv2.inRange(r, 0, 55)
 
     # Multiplizieren der Einzelmasken
     mask = cv2.multiply(g_mask, r_mask)
