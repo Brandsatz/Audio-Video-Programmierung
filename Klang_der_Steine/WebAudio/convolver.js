@@ -1,3 +1,5 @@
+//Dieser Skript Teil beschäftigt sich mit dem Hall. Es werden verschiedene Reverbs geladen, sobald der Hall aktiv sein soll.
+
 let reverbOn = true;
 let reverbSelectList = document.querySelector("#reverbSelectList");
 
@@ -31,6 +33,7 @@ function loadImpulseResponse(name){
     request.send();
 }
 
+//Der Reverb kann mit Hilfe des Buttons ein und aus gestellt werden.
 
 document.querySelector("#reverbOnOffButton").addEventListener("click", function(e){
     if(reverbOn){

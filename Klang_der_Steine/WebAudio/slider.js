@@ -1,3 +1,5 @@
+// In diesem Teil des Programms werden alle auf der Seite befindlichen Slider abgefragt und auf veränderungen geprüft.
+
 let sliders = document.getElementsByClassName("slider");
 
 for (let i = 0; i < sliders.length; i++) {

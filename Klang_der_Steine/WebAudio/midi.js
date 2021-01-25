@@ -6,8 +6,6 @@ if (navigator.requestMIDIAccess) {
 
         midi.onstatechange = onStateChange;
 
-        // var outputs = midi.outputs.values();
-
         var inputs = midi.inputs.values();
         // loop through all inputs
         for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
@@ -30,11 +28,10 @@ function onMIDIMessage(event) {
     
     switch (event.data[0]) {
     case 144:
-        // your function startNote(note, velocity)
-        midiZuweisung(event.data[1], event.data[2]);
+        midiZuweisung(event.data[1], event.data[2]);  //Bei erhalt eines Miditons soll der Status der einzelnen Drums erneuert werden.
         break;
     case 145:
-        console.log("Midiversendet")
+        console.log("Midiversendet")  //Eine Sicherung die auf die von JavaScript gesendete Midinote achtet
     }
 };
 
@@ -43,7 +40,7 @@ function onStateChange(event) {
 };
 
 function midiSend(){
-    midiOutput.send([145, 7, 0]);
+    midiOutput.send([145, 7, 0]);   //Eine festgelegte Midinote auf die Python reagiert und die Videoanalyse startet.
 };
 
 

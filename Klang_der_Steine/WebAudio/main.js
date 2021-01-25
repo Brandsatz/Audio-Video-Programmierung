@@ -37,6 +37,9 @@ function machineLeeren(){       //Diese Funktion soll aufgerufen werden, bevor d
     }
 };
 
+
+// Bei erhalten einer Midinachricht wird diese Funktion aufgerufen. Sie weist den Drum Array die aktiven Positionen zu
+// und ändert das Design an der entsprechenden Position.
 function midiZuweisung(sound, positionID){
     let position = positionID - 1;
     switch(sound) {
@@ -70,6 +73,8 @@ function midiZuweisung(sound, positionID){
     }
 };
 
+//Hier werden die verschiedenen Sounds aus dem Sound Ordner abgegriffen und dem Buffer Array zugeführt.
+
 for (let i = 0; i < 5; i++)
     getAudioData(i);
 
@@ -84,6 +89,9 @@ function getAudioData(i) {
 }
 
 
+//Damit der gleiche Sound mehrfach hintereinander ebgespielt werden kann muss der Aufruf 
+//in einer getrennten Funktion passieren. So wird einfach nur die Funktion immer wieder neu aufgerufen.
+
 function playSound(buffer, time) {
     let source = context.createBufferSource();
     source.buffer = buffer;
@@ -92,6 +100,7 @@ function playSound(buffer, time) {
 }
 
 
+//Play-Status setzen und Button umbeschriften
 
 document.querySelector("#startButton").addEventListener('click', function(e){
     
@@ -104,6 +113,9 @@ document.querySelector("#startButton").addEventListener('click', function(e){
     }
     loop();
 });
+
+
+//Die Hauptloop Funktion. Hier wird der Takt bestimmt und die aktiven Drums über die Play Sound Funktion aufgerufen.
 
 function loop(){
     if(isPlaying){
@@ -180,6 +192,10 @@ function loop(){
         }
     }
 };
+
+
+//Die Funktion ClassChange beschäftigt sich ausschließlich mit der Darstellung des Taktdurchläufers und dem Wiederherstellen der Anzeige aus dem vorherigen Takt.
+//Somit wird nachdem der gelbe Durchläufer passiert ist, der letzte Takt wieder in seinen ursprünglichen Status versetzt.
 
 function classChange(){
 
