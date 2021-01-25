@@ -1,0 +1,232 @@
+html, body {
+    padding: 0; margin: 0;
+    background: #434e8f;
+    color: #d8d6c2;
+    font-family: monospace;
+    width: 100%;
+}
+
+div {
+    font-size: 1.3em;
+}
+
+.seite{
+    margin: 0 auto;
+    background: #767b98;
+    text-align: center;
+    width: 1910px;
+    height: 951px;
+}
+
+.button {
+    background-color: #e0d336;
+    border: none;
+    color: #767b98;
+    font-size: 2em;
+    padding: 0.5em 1.5em;
+    font-family: monospace;;
+}
+
+button:active {
+   background: #ffffff;
+    color: #d8d6c2;
+    border: none;
+}
+
+#startButton{
+    margin-top: 0.3em;
+}
+
+.slider {
+    margin-top: 0.3em;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #1dba23;
+    cursor: pointer;
+}
+
+#gainSlider{
+    transform: rotate(-90deg);
+    width: 18em;
+    margin-top: 10em;
+    margin-right: 3em;
+    
+}
+
+#sliderContainer{
+    margin-left: -13.7%;
+}
+
+#gainContainer{
+    float: right;
+    /* background: seashell; */
+    width: 10%;
+    height: 1%;
+    margin-top: 1em;
+    margin-right: 2%;
+    text-align: center;
+    font-size: 1.3em;
+}
+
+#gainOutput{
+    margin-top: 5em;
+    font-size: 1em;
+}
+
+
+#tempoContainer{
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#bassContainer {
+    background: #4be6f1e0;
+    text-align: left;
+    height: 3em;
+    width: 70%;
+    margin-top: 0.5em;
+    margin-left: 15%;
+    padding-top: 1.4%;
+}
+#tomContainer {
+    background: #4be6f1e0;
+    text-align: left;
+    height: 3em;
+    width: 70%;
+    margin-left: 15%;
+}
+#snareContainer {
+    background: #4be6f1e0;
+    text-align: left;
+    height: 3em;
+    width: 70%;
+    margin-left: 15%;
+}
+
+#clapContainer {
+    background: #4be6f1e0;
+    text-align: left;
+    height: 3em;
+    width: 70%;
+    margin-left: 15%;
+}
+#crashContainer {
+    background: #4be6f1e0;
+    text-align: left;
+    height: 3em;
+    width: 70%;
+    margin-left: 15%;
+}
+
+.iconContainer{
+    width: 20%;
+    text-align: center;
+    margin-left: 6%;  
+}
+
+.box {
+    width: 0.8em;
+    height: 0.8em;
+    background: rgb(110, 74, 74);
+    margin-right: 0.8em;
+    float: right;
+    box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+}
+
+.activeBox{
+    width: 0.76em;
+    height: 0.76em;
+    margin-right: 0.745em;
+    float: right;
+    background: rgb(248, 116, 28);
+    box-shadow: 0 0 7px rgba(240, 219, 33, 0.897);
+    border: 2.4px rgb(241, 208, 146);
+    border-style: inset;
+}
+
+.musicActive{
+    width: 0.76em;
+    height: 0.76em;
+    margin-right: 0.745em;
+    float: right;
+    background: rgb(231, 255, 10);
+    box-shadow: 0 0 7px rgba(255, 244, 96, 0.897);
+    border: 2.4px rgb(223, 255, 79);
+    border-style: inset;
+}
+
+.ledRow{
+    margin-right: 10%;
+    background-color: #767b98;
+    margin-top: -1.3em;
+}
+
+#video{
+    float: left;
+    margin-left: 30%;
+    box-shadow: 5px 3px 4px #1f2129;
+}
+
+#reverbContainer{
+    text-align: center;
+    font-size: 1.3em;
+    width: 15%;
+    height: 6em;
+    float: right;
+    margin-right: 34.5%;    
+}
+
+#reverbOnOffButton{
+    
+    margin-left: 0.4em;
+    font-size: 0.8em;
+    height: 1.2em;
+    width: 6em;
+    padding-top: 0.2em;
+    padding-bottom: 1.3em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+}
+
+#reverbSelectList{
+    margin-top: 1em;
+    width: 8em;
+    height: 2em;
+    background-color: #e0d336;
+    color: #767b98;
+}
+
+#analyseContainer{
+    text-align: center;
+    width: 14%;
+    height: 10%;
+    float: right;
+    margin-top: 0.5em;
+    margin-right: 35%;
+}
+
+#analyseButton{
+    font-size: 1.3em;
+    width: 100%;
+    height: 100%;
+}
+
